@@ -42,8 +42,8 @@ test.eBird = 79510:88726
 test.BBA = 88727:95456
 test.BBS = 95457:103729
 
-
 m1 <- generate.code(dat1)
+
 
 # Use the output found in placeholder.txt in the JAGS model file: cawam1.txt
 
@@ -83,9 +83,10 @@ outm1 <- jags(data = datm1,
               n.iter = 2500,
               parallel = TRUE)
 
+
 ### Performance metrics -----------------------------------------------------
 
-# Full Deviance
+#Full Deviance
 m1_yp <- outm1$mean$y2
 m1_yt <- c(dat1$cawadet[test.eBird], dat1$cawatot[test.BBA], dat1$cawadet[test.BBS])
 m1_yt <- cbind(m1_yt, c(1 - dat1$cawadet[test.eBird], 5 - dat1$cawatot[test.BBA], 1 - dat1$cawadet[test.BBS]))
@@ -155,6 +156,7 @@ save(m1, datm1, jm1, sam1, jam1,
 # pdf("FinalResults/Plots/cawam1cov.pdf")
 # plot(jam1, pages=1)
 # dev.off()
+
 
 
 # End script
