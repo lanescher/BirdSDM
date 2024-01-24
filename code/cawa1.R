@@ -129,34 +129,9 @@ auc1 <- auc1@y.values[[1]]
 
 # Save CAWA M1 file
 save(outm1, m1, datm1, m1_dev, Em1_dev, Am1_dev, Sm1_dev,
-     brier1, pred1, auc1,
+     brier1, pred1, auc1, initsm1,
      file = "results/out/cawam1.RData")
 
 
-### GAMs --------------------------------------------------------------------
-
-#Sim2Jam
-require(rjags)
-# load("results/out/cawam1.RData")
-
-jm1 <- jags.model("models/0_cawam1.txt", 
-                  data=datm1, 
-                  inits=initsm1, 
-                  n.adapt=500, 
-                  n.chains=3)
-update(jm1, 500)
-
-sam1 <- jags.samples(jm1, c("b","rho"), n.iter=2000, thin=2)
-jam1 <- sim2jam(sam1, m1$pregam)
-
-save(m1, datm1, jm1, sam1, jam1,
-     file = "results/jams/cawam1jam.RData")
-
-# Base plotting of GAMs
-# pdf("FinalResults/Plots/cawam1cov.pdf")
-# plot(jam1, pages=1)
-# dev.off()
-
-
-
 # End script
+
