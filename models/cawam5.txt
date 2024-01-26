@@ -1,6 +1,9 @@
 model {
   eta <- X %*% b ## linear predictor
-  for (i in 1:n) { mu[i] <-  ilogit(eta[i]) } ## expected response
+  
+  for (i in 1:n) { 
+    mu[i] <-  ilogit(eta[i]) 
+  } ## expected response
 
   for (i in 1:19829) {
   	z[i] ~ dbern(mu[i])   #eBird train
@@ -19,7 +22,6 @@ model {
   	y[i] ~ dbern(z[i]*p2[i])
   	logit(p2[i]) <- alpha2 + beta[3]*doy3[i-46832]*doy3[i-46832]
   }
-  
   
   for (i in 79510:88726) { 
   	z2[i] ~ dbern(mu[i])   #eBird test
