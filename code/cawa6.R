@@ -1,20 +1,17 @@
-## ---------------------------
-## This code was written by: r.o. mummah
-## For questions: rmummah@usgs.gov
-## Date Created: 2024-01-25
-## ---------------------------
+
+## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-## Model 6: E2 (no filtering, no spatial balancing, & no effort for eBird) 
+## Model 6: F (no filtering, no spatial balancing, & no effort for eBird) 
 ## Canada warbler (CAWA)
 ## 
 ## Input:
-##   
+##   test1.csv
+##   train4.csv
 ##
 ## Output: 
+##   cawam6.RData
 ##
-##
-## ---------------------------
 
 ## load packages ---------------------------
 library(plyr)

@@ -6,7 +6,7 @@
 ## Canada warbler (CAWA) 
 ##
 ## Input:
-##    covdat.csv
+##    covdat2.csv
 ##
 ## Output: 
 ##    cawam11.RData
@@ -57,9 +57,19 @@ initsm11 <- function(){
        z = as.numeric(datm11$y>0))
 }
 
-outm11 <- jags(data = datm11, parameters.to.save = c("beta","b","y2"), inits = initsm11, 
-               model.file = "FinalModels/cawam11.txt", 
-               n.chains = 3, n.thin = 2, n.adapt = 500, n.burnin = 500, n.iter = 2500, parallel=TRUE)
+outm11 <- jags(data = datm11, 
+               parameters.to.save = c("beta","b","y2"), 
+               inits = initsm11, 
+               model.file = "models/cawam11.txt", 
+               n.chains = 3, 
+               n.thin = 2, 
+               n.adapt = 500, 
+               n.burnin = 500, 
+               n.iter = 2500, 
+               parallel=TRUE)
+
+
+### Performance metrics -----------------------------------------------------
 
 #Full Deviance
 m11_yp <- outm11$mean$y2
@@ -88,62 +98,19 @@ Sm11_yt <- cbind(Sm11_yt, c(1 - covdat2$cawadet[90353:98625]))
 Sm11_yp <- 0.0001 + Sm11_yp*0.9998
 Sm11_dev <- -2*sum(log((Sm11_yp^Sm11_yt[,1])*((1-Sm11_yp)^(Sm11_yt[,2]))))
 
-save(outm11, m11, m11_dev, Em11_dev, Am11_dev, Sm11_dev, 
-     file = "FinalResults/cawam11_2.RData")
 
+# Brier score
 brier11 <- mean((outm11$mean$y2[9218:24220] - covdat2$cawadet[83623:98625])^2)
 
+
+# AUC
 pred11 <- prediction(as.numeric(outm11$mean$y2[9218:24220]), covdat2$cawadet[83623:98625])
 auc11 <- performance(pred11, measure = "auc")
 auc11 <- auc11@y.values[[1]]
 
 
+save(outm11, m11, datm11, m11_dev, Em11_dev, Am11_dev, Sm11_dev,
+     brier11, pred11, auc11, initsm11,
+     file = "results/out/cawam11.RData")
 
-#################################
-#Sim2Jam, model 11 (aka 10)
-require(rjags)
-jm11 <- jags.model("FinalModels/cawam11.txt", data=datm11, inits=initsm11, n.adapt=500, n.chains=3)
-update(jm11, 500)
-sam11 <- jags.samples(jm11, c("b","rho"), n.iter=2000, thin=2)
-jam11 <- sim2jam(sam11, m11$pregam)
-
-save(m11, jm11, sam11, jam11,
-     file = "FinalResults/Plots/cawam11_jam.RData")
-
-pdf("FinalResults/Plots/cawa11cov.pdf")
-plot(jam11, pages=1)
-dev.off()
-
-load("S:/MillerLab/Projects/BirdSDM/FinalResults/Plots/grid_pa_1km.RData")
-library(ggplot2)
-library(sf)
-library(sp)
-library(RColorBrewer)
-
-#Generate predictions
-grid3$pred <- predict(jam11, newdata = grid3, type="response")
-grid_sp <- as_Spatial(grid3)
-
-#Change map extent
-scale.parameter = 1.1
-original.bbox = grid_sp@bbox 
-edges = original.bbox
-edges[1, ] <- (edges[1, ] - mean(edges[1, ])) * scale.parameter + mean(edges[1, 
-])
-edges[2, ] <- (edges[2, ] - mean(edges[2, ])) * scale.parameter + mean(edges[2, 
-])
-
-#Plot
-pdf("FinalResults/Plots/cawa11map.pdf")
-spplot(grid_sp, "pred", col=NA, par.settings = list(axis.line = list(col = 'transparent')),
-       xlim = edges[1, ], ylim = edges[2, ], colorkey=list(height=0.6, cex=0.5))
-dev.off()
-
-
-
-
-
-###spplot(grid_sp, "pred", col=NA, par.settings = list(axis.line = list(col = 'transparent')),
-# xlim = edges[1, ], ylim = edges[2, ], at = seq(0, 0.4, 0.025), 
-# colorkey=list(labels=list(labels=(seq(0, 0.4, 0.05))), height=0.6, cex=0.5))
-
+# End script

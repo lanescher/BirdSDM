@@ -6,10 +6,11 @@
 ## Canada Warbler models 1-7
 ##
 ## Input:
-##   
+##   test1.csv
+##   train1.csv
 ##
 ## Output: 
-##
+##   cawam1.RData
 ##
 
 ## load packages ---------------------------

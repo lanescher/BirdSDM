@@ -1,17 +1,18 @@
 
-
+## This code was written by: fiona lunt
 
 ## Objective ---------------------------
 ## Model 2: F1 (unfiltered eBird) 
 ## Canada warbler (CAWA)
 ## 
 ## Input:
-##   
+##   test1.csv
+##   train2.csv
 ##
 ## Output: 
+##   cawam2.RData
 ##
-##
-## ---------------------------
+
 
 ## load packages ---------------------------
 library(plyr)
@@ -31,7 +32,7 @@ train2 <- read.csv("data/train2.csv")
 dat2 <- rbind.fill(train2, test1)
 
 
-##Model 2: CAWA (no eBird filtering)
+# Model 2: F1 - CAWA ------------------------------------------------------
 #train: eBird- 1:20361, BBA- 20362:47364, BBS- 47365:80041
 #test: eBird- 80042:89258, BBA- 89259:95988, BBS- 95989:104261
 

@@ -1,17 +1,17 @@
 
-
+## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-## Model 5: E1 (no eBird effort)
+## Model 5: F5 (no eBird effort)
 ## Canada warbler (CAWA)
 ## 
 ## Input:
-##   
+##   test1.csv
+##   train1.csv
 ##
 ## Output: 
+##   cawam5.RData
 ##
-##
-## ---------------------------
 
 ## load packages ---------------------------
 library(plyr)
@@ -31,7 +31,7 @@ train1 <- read.csv("data/train1.csv")
 dat1 <- rbind.fill(train1, test1)
 
 
-# Model 5: E1 - CAWA ------------------------------------------------------
+# Model 5: F5 - CAWA ------------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509
 #test: eBird- 79510:88726, BBA- 88727:95456, BBS- 95457:103729
 
@@ -107,7 +107,7 @@ auc5 <- auc5@y.values[[1]]
 
 
 save(outm5, m5, m5_dev, Em5_dev, Am5_dev, Sm5_dev, 
-     brier5, pred5, auc5,
+     brier5, pred5, auc5, initsm5,
      file = "results/out/cawam5.RData")
 
 # End script

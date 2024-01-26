@@ -1,17 +1,18 @@
 
-
+## This code was written by: fiona lunt
 
 ## Objective ---------------------------
 ## Model 4: F3 (no eBird filtering or spatial balancing)
 ## Canada warbler (CAWA)
 ## 
 ## Input:
-##   
+##   test1.csv
+##   train4.csv
 ##
 ## Output: 
+##   cawam4.RData
 ##
-##
-## ---------------------------
+
 
 ## load packages ---------------------------
 library(plyr)
