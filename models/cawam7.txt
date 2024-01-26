@@ -1,5 +1,6 @@
 model {
   eta <- X %*% b ## linear predictor
+  
   for (i in 1:n) { 
     mu[i] <-  ilogit(eta[i]) 
   } ## expected response
