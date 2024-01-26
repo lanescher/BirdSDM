@@ -2,8 +2,8 @@
 ## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-## 
-## Canada Warbler models 1-7
+## Model 1: R1 (reference) 
+## Canada warbler (CAWA)
 ##
 ## Input:
 ##   test1.csv
@@ -14,11 +14,9 @@
 ##
 
 ## load packages ---------------------------
-library(tidyverse)
-library(magrittr)
+library(plyr)
 library(dplyr)
 library(tibble)
-library(plyr)
 library(mgcv)
 library(jagsUI)
 library(ROCR)

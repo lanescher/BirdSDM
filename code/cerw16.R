@@ -10,7 +10,7 @@
 ##   train1.csv
 ##
 ## Output: 
-##   cawam1.RData
+##   cerwm1.RData
 ##
 
 ## load packages ---------------------------

@@ -2,7 +2,7 @@
 ## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-##   Model 16: I4 (same as R1 but with different intercepts)
+##   Model 16: E4 (same as R1 but with different intercepts)
 ##   Canada warbler (CAWA)
 ## 
 ## Input:
@@ -44,7 +44,7 @@ dat1$int <- as.factor(dat1$int)
 
 
 
-# Model 16: I4 - CAWA -----------------------------------------------------
+# Model 16: E4 - CAWA -----------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509,
 #test: eBird- 79510:88726, BBA- 88727:95456, BBS- 95457:103729
 
