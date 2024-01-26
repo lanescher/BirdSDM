@@ -1,44 +1,61 @@
 model {
   eta <- X %*% b ## linear predictor
-  for (i in 1:n) { mu[i] <-  ilogit(eta[i]) } ## expected response
+  
+  for (i in 1:n) { 
+    mu[i] <-  ilogit(eta[i]) 
+  } ## expected response
 
-  for (i in 1:20361) { z[i] ~ dbern(mu[i])   #eBird train
-                    y[i] ~ dbern(z[i]*pstar[i])
-                    pstar[i] <- 1-(0.5)^E[i]
-                    E[i] <- beta[1]*ehours[i] + beta[2]*ekm[i]} 
+  for (i in 1:20361) { 
+    z[i] ~ dbern(mu[i])   #eBird train
+    y[i] ~ dbern(z[i]*pstar[i])
+    pstar[i] <- 1-(0.5)^E[i]
+    E[i] <- beta[1]*ehours[i] + beta[2]*ekm[i]
+  } 
                     
-  for (i in 20362:47364) { z[i] ~ dbern(mu[i])  #BBA train
-                          y[i] ~ dbin(muy[i], 5)
-                          muy[i] <- z[i]*p1[i] 
-                       logit(p1[i]) <- alpha1 + beta[3]*hsm[i-20361]*hsm[i-20361] + beta[4]*doy[i-20361]*doy[i-20361]}
+  for (i in 20362:47364) { 
+    z[i] ~ dbern(mu[i])  #BBA train
+    y[i] ~ dbin(muy[i], 5)
+    muy[i] <- z[i]*p1[i] 
+    logit(p1[i]) <- alpha1 + beta[3]*hsm[i-20361]*hsm[i-20361] + beta[4]*doy[i-20361]*doy[i-20361]
+  }
                           
-  for(i in 47365:80041) {z[i] ~ dbern(mu[i])   #BBS train
-                        y[i] ~ dbern(z[i]*p2[i])
-                        logit(p2[i]) <- alpha2 + beta[5]*doy3[i-47364]*doy3[i-47364]}
+  for(i in 47365:80041) {
+    z[i] ~ dbern(mu[i])   #BBS train
+    y[i] ~ dbern(z[i]*p2[i])
+    logit(p2[i]) <- alpha2 + beta[5]*doy3[i-47364]*doy3[i-47364]
+  }
   
   
-  for (i in 80042:89258) { z2[i] ~ dbern(mu[i])   #eBird test
-                           y2[i-80041] ~ dbern(z2[i]*pstar[i])
-                           pstar[i] <- 1-(0.5)^E[i]
-                           E[i] <- beta[1]*ehours2[i-80041] + beta[2]*ekm2[i-80041]} 
+  for (i in 80042:89258) { 
+    z2[i] ~ dbern(mu[i])   #eBird test
+    y2[i-80041] ~ dbern(z2[i]*pstar[i])
+    pstar[i] <- 1-(0.5)^E[i]
+    E[i] <- beta[1]*ehours2[i-80041] + beta[2]*ekm2[i-80041]
+  } 
   
-  for (i in 89259:95988) { z2[i] ~ dbern(mu[i])  #BBA test
-                          y2[i-80041] ~ dbin(muy[i], 5)
-                          muy[i] <- z2[i]*p1[i] 
-                       logit(p1[i]) <- alpha1 + beta[3]*hsm2[i-89258]*hsm2[i-89258] + beta[4]*doy2[i-89258]*doy2[i-89258]}
+  for (i in 89259:95988) { 
+    z2[i] ~ dbern(mu[i])  #BBA test
+    y2[i-80041] ~ dbin(muy[i], 5)
+    muy[i] <- z2[i]*p1[i]
+    logit(p1[i]) <- alpha1 + beta[3]*hsm2[i-89258]*hsm2[i-89258] + beta[4]*doy2[i-89258]*doy2[i-89258]
+  }
 
-  for(i in 95989:104261) {z2[i] ~ dbern(mu[i])   #BBS test
-                          y2[i-80041] ~ dbern(z2[i]*p2[i])
-                          logit(p2[i]) <- alpha2 + beta[5]*doy4[i-95988]*doy4[i-95988]}
+  for(i in 95989:104261) {
+    z2[i] ~ dbern(mu[i])   #BBS test
+    y2[i-80041] ~ dbern(z2[i]*p2[i])
+    logit(p2[i]) <- alpha2 + beta[5]*doy4[i-95988]*doy4[i-95988]
+  }
   
   
   #Priors                
   for (j in 1:2){
-  beta[j] ~ dunif(0, 20)
+    beta[j] ~ dunif(0, 20)
   }
+  
   for (k in 3:5){
-  beta[k] ~ dnorm(0, 0.01)
+    beta[k] ~ dnorm(0, 0.01)
   }
+  
   alpha1 ~ dnorm(0, 0.01)
   alpha2 ~ dnorm(0, 0.01)
 
