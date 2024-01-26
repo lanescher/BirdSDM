@@ -1,6 +1,20 @@
-#Newer Golden-winged Warbler models
-setwd("S:/MillerLab/Projects/BirdSDM")
 
+## This code was written by: fiona lunt
+
+## Objective ---------------------------
+##   Model 16: E4 (same as R1 but with different intercepts)
+##   Golden-winged warbler (GWWA)
+## 
+## Input:
+##    test1.csv
+##    train1.csv
+##
+## Output: 
+##   gwwam16.RData
+##
+## ---------------------------
+
+## load packages ---------------------------
 library(dplyr)
 library(tibble)
 library(plyr)
@@ -8,9 +22,14 @@ library(mgcv)
 library(jagsUI)
 library(ROCR)
 
-#Load data
-test1 <- read.csv("FinalData/TestTrain/test1.csv")
-train1 <- read.csv("FinalData/TestTrain/train1.csv")
+
+## load functions ---------------------------
+source('functions.R')
+
+
+## load data --------------------------------
+test1 <- read.csv("data/test1.csv")
+train1 <- read.csv("data/train1.csv")
 
 #Bind data
 dat1 <- rbind.fill(train1, test1)
@@ -23,13 +42,11 @@ dat1$int[79510:88726] <- "N"
 dat1$int[88727:103729] <- "S"
 dat1$int <- as.factor(dat1$int)
 
-#Model 16: same as full model #1 but with different intercept
+# Model 16: E4 - GWWA -----------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509,
 #test: eBird- 79510:88726, BBA- 88727:95456, BBS- 95457:103729
 
-m16 <- jagam(gwwadet ~ int + s(elev, k=10) + s(slope, k=10) + s(temp, k=10) + s(ppt, k=10) + s(can, k=10) + s(dev, k=10) + 
-               s(forest, k=10) + s(road, k=10) + s(longitude, latitude, bs='ds', k=100), 
-             data = dat1, family='binomial', file = 'placeholder.txt')
+m16 <- generate.code(dat1)
 
 datm16 <- list(y = c(dat1$gwwadet[1:19829], dat1$gwwatot[19830:46832], dat1$gwwadet[46833:79509]), 
                X = m16$jags.data$X, n = m16$jags.data$n, zero = m16$jags.data$zero,
@@ -48,12 +65,24 @@ datm16 <- list(y = c(dat1$gwwadet[1:19829], dat1$gwwatot[19830:46832], dat1$gwwa
                doy4 = dat1$doy[95457:103729])
 
 initsm16 <- function(){
-  list(b = m16$jags.ini$b, lambda = m16$jags.ini$lambda,  beta = rep(3, 0.001), z = as.numeric(datm16$y>0))
+  list(b = m16$jags.ini$b, 
+       lambda = m16$jags.ini$lambda,  
+       beta = rep(3, 0.001), 
+       z = as.numeric(datm16$y>0))
 }
 
-outm16 <- jags(data = datm16, parameters.to.save = c("beta","b","y2"), inits = initsm16, 
-               model.file = "FinalModels/gwwam16.txt", 
-               n.chains = 3, n.thin = 2, n.adapt = 500, n.burnin = 500, n.iter = 2500)
+outm16 <- jags(data = datm16, parameters.to.save = c("beta","b","y2"), 
+               inits = initsm16, 
+               model.file = "models/gwwam16.txt", 
+               n.chains = 3, 
+               n.thin = 2, 
+               n.adapt = 500, 
+               n.burnin = 500, 
+               n.iter = 2500,
+               parallel = TRUE)
+
+
+### Performance metrics -----------------------------------------------------
 
 #Full Deviance
 m16_yp <- outm16$mean$y2
@@ -82,20 +111,19 @@ Sm16_yt <- cbind(Sm16_yt, c(1 - dat1$gwwadet[95457:103729]))
 Sm16_yp <- 0.0001 + Sm16_yp*0.9998
 Sm16_dev <- -2*sum(log((Sm16_yp^Sm16_yt[,1])*((1-Sm16_yp)^(Sm16_yt[,2]))))
 
-save(outm16, m16, m16_dev, Em16_dev, Am16_dev, Sm16_dev, 
-     file = "FinalResults/gwwam16.RData")
 
+# Brier score
 brier16 <- mean((outm16$mean$y2[9218:24220] - dat1$gwwadet[88727:103729])^2)
 
+# AUC
 pred16 <- prediction(as.numeric(outm16$mean$y2[9218:24220]), dat1$gwwadet[88727:103729])
 auc16 <- performance(pred16, measure = "auc")
 auc16 <- auc16@y.values[[1]]
 
 
+save(outm16, m16, datm16, m16_dev, Em16_dev, Am16_dev, Sm16_dev, 
+     brier16, pred16, auc16, initsm16,
+     file = "results/out/gwwam16.RData")
 
 
-
-
-
-
-
+# End script

@@ -4,14 +4,14 @@
 ## ---------------------------
 ## Objective: 
 ##  Model 12: R2 (full model, validate on current; train1test2)
-##  Canada warbler (CAWA)
+##  Golden-winged warbler (GWWA)
 ## 
 ## Input:
 ##  train1.csv
 ##  test2.csv
 ##
 ## Output: 
-##  cawam12.RData
+##  gwwam12.RData
 ##
 ## ---------------------------
 
@@ -34,14 +34,13 @@ test2 <- read.csv("data/test2.csv")
 
 dat12 <- rbind.fill(train1, test2)
 
-
 # Model 12: R2 - (CAWA) ---------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509,
 #test: eBird- 79510:84969, BBS- 84970:87201
 
 m12 <- generate.code(dat12)
 
-datm12 <- list(y = c(dat12$cawadet[1:19829], dat12$cawatot[19830:46832], dat12$cawadet[46833:79509]), 
+datm12 <- list(y = c(dat12$gwwadet[1:19829], dat12$gwwatot[19830:46832], dat12$gwwadet[46833:79509]), 
                X = m12$jags.data$X, n = m12$jags.data$n, zero = m12$jags.data$zero,
                S1 = m12$jags.data$S1, S2 = m12$jags.data$S2, S3 = m12$jags.data$S3,
                S4 = m12$jags.data$S4, S5 = m12$jags.data$S5, S6 = m12$jags.data$S6,
@@ -57,7 +56,7 @@ datm12 <- list(y = c(dat12$cawadet[1:19829], dat12$cawatot[19830:46832], dat12$c
 
 initsm12 <- function(){
   list(b = m12$jags.ini$b, 
-       lambda = m12$jags.ini$lambda, 
+       lambda = m12$jags.ini$lambda,  
        beta = rep(3, 0.001), 
        z = as.numeric(datm12$y>0))
 }
@@ -65,7 +64,7 @@ initsm12 <- function(){
 outm12 <- jags(data = datm12, 
                parameters.to.save = c("beta","b","y2"), 
                inits = initsm12, 
-               model.file = "models/cawam12.txt", 
+               model.file = "models/gwwam12.txt", 
                n.chains = 3, 
                n.thin = 2, 
                n.adapt = 500, 
@@ -78,38 +77,36 @@ outm12 <- jags(data = datm12,
 
 #Full Deviance
 m12_yp <- outm12$mean$y2
-m12_yt <- c(dat12$cawadet[79510:84969], dat12$cawadet[84970:87201])
-m12_yt <- cbind(m12_yt, c(1 - dat12$cawadet[79510:84969], 1 - dat12$cawadet[84970:87201]))
+m12_yt <- c(dat12$gwwadet[79510:84969], dat12$gwwadet[84970:87201])
+m12_yt <- cbind(m12_yt, c(1 - dat12$gwwadet[79510:84969], 1 - dat12$gwwadet[84970:87201]))
 m12_yp <- 0.0001 + m12_yp*0.9998
 m12_dev <- -2*sum(log((m12_yp^m12_yt[,1])*((1-m12_yp)^(m12_yt[,2]))))
 #eBird deviance
 Em12_yp <- outm12$mean$y2[1:5460]
-Em12_yt <- c(dat12$cawadet[79510:84969])
-Em12_yt <- cbind(Em12_yt, c(1 - dat12$cawadet[79510:84969]))
+Em12_yt <- c(dat12$gwwadet[79510:84969])
+Em12_yt <- cbind(Em12_yt, c(1 - dat12$gwwadet[79510:84969]))
 Em12_yp <- 0.0001 + Em12_yp*0.9998
 Em12_dev <- -2*sum(log((Em12_yp^Em12_yt[,1])*((1-Em12_yp)^(Em12_yt[,2]))))
 #BBS deviance
 Sm12_yp <- outm12$mean$y2[5461:7692]
-Sm12_yt <- c(dat12$cawadet[84970:87201])
-Sm12_yt <- cbind(Sm12_yt, c(1 - dat12$cawadet[84970:87201]))
+Sm12_yt <- c(dat12$gwwadet[84970:87201])
+Sm12_yt <- cbind(Sm12_yt, c(1 - dat12$gwwadet[84970:87201]))
 Sm12_yp <- 0.0001 + Sm12_yp*0.9998
 Sm12_dev <- -2*sum(log((Sm12_yp^Sm12_yt[,1])*((1-Sm12_yp)^(Sm12_yt[,2]))))
 
 
 # Brier score
-brier12 <- mean((outm12$mean$y2 - dat12$cawadet[79510:87201])^2)
-
+brier12 <- mean((outm12$mean$y2 - dat12$gwwadet[79510:87201])^2)
 
 # AUC
-pred12 <- prediction(as.numeric(outm12$mean$y2), dat12$cawadet[79510:87201])
+pred12 <- prediction(as.numeric(outm12$mean$y2), dat12$gwwadet[79510:87201])
 auc12 <- performance(pred12, measure = "auc")
 auc12 <- auc12@y.values[[1]]
 
 
-# Save output
 save(outm12, m12, datm12, m12_dev, Em12_dev, Sm12_dev, 
      brier12, pred12, auc12, initsm12,
-     file = "results/out/cawam12.RData")
+     file = "results/out/gwwam12.RData")
 
 
 # End script
