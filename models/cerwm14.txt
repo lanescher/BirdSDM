@@ -1,0 +1,82 @@
+model {
+  eta <- X %*% b ## linear predictor
+  
+  for (i in 1:n) { 
+    mu[i] <-  ilogit(eta[i]) 
+  } ## expected response
+
+  for (i in 1:10748) { 
+    z[i] ~ dbern(mu[i])   #eBird train
+    y[i] ~ dbern(z[i]*pstar[i])
+    pstar[i] <- 1-(0.5)^E[i]
+    E[i] <- beta[1]*ehours[i] + beta[2]*ekm[i]
+  } 
+                          
+  for(i in 10749:19556) {
+    z[i] ~ dbern(mu[i])   #BBS train
+    y[i] ~ dbern(z[i]*p2[i])
+    logit(p2[i]) <- alpha2 + beta[3]*doy[i-10748]*doy[i-10748]
+  }
+  
+  
+  for (i in 19557:25016) { 
+    z2[i] ~ dbern(mu[i])   #eBird test
+    y2[i-19556] ~ dbern(z2[i]*pstar[i])
+    pstar[i] <- 1-(0.5)^E[i]
+    E[i] <- beta[1]*ehours2[i-19556] + beta[2]*ekm2[i-19556]
+  } 
+
+  for(i in 25017:27248) {
+    z2[i] ~ dbern(mu[i])   #BBS test
+    y2[i-19556] ~ dbern(z2[i]*p2[i])
+    logit(p2[i]) <- alpha2 + beta[3]*doy2[i-25016]*doy2[i-25016]
+  }
+  
+  
+  #Priors                
+  for (j in 1:2){
+    beta[j] ~ dunif(0, 20)
+  }
+  
+  beta[3] ~ dnorm(0, 0.01)
+  alpha2 ~ dnorm(0, 0.01)
+
+
+  ## Parametric effect priors CHECK tau=1/10^2 is appropriate!
+  b[1] ~ dnorm(0,0.0086)
+  for (k in 2:4){b[k] ~ dunif(-10,0)} #lists
+  for (m in 5:7){b[m] ~ dunif(0,10)} #count
+  
+  ## prior for s(elev)... 
+  K1 <- S1[1:9,1:9] * lambda[1]  + S1[1:9,10:18] * lambda[2]
+  b[8:16] ~ dmnorm(zero[8:16],K1) 
+  ## prior for s(slope)... 
+  K2 <- S2[1:9,1:9] * lambda[3]  + S2[1:9,10:18] * lambda[4]
+  b[17:25] ~ dmnorm(zero[17:25],K2) 
+  ## prior for s(temp)... 
+  K3 <- S3[1:9,1:9] * lambda[5]  + S3[1:9,10:18] * lambda[6]
+  b[26:34] ~ dmnorm(zero[26:34],K3) 
+  ## prior for s(ppt)... 
+  K4 <- S4[1:9,1:9] * lambda[7]  + S4[1:9,10:18] * lambda[8]
+  b[35:43] ~ dmnorm(zero[35:43],K4) 
+  ## prior for s(can)... 
+  K5 <- S5[1:9,1:9] * lambda[9]  + S5[1:9,10:18] * lambda[10]
+  b[44:52] ~ dmnorm(zero[44:52],K5) 
+  ## prior for s(dev)... 
+  K6 <- S6[1:9,1:9] * lambda[11]  + S6[1:9,10:18] * lambda[12]
+  b[53:61] ~ dmnorm(zero[53:61],K6) 
+  ## prior for s(forest)... 
+  K7 <- S7[1:9,1:9] * lambda[13]  + S7[1:9,10:18] * lambda[14]
+  b[62:70] ~ dmnorm(zero[62:70],K7) 
+  ## prior for s(road)... 
+  K8 <- S8[1:9,1:9] * lambda[15]  + S8[1:9,10:18] * lambda[16]
+  b[71:79] ~ dmnorm(zero[71:79],K8) 
+  ## prior for s(longitude,latitude)... 
+  K9 <- S9[1:99,1:99] * lambda[17]  + S9[1:99,100:198] * lambda[18]
+  b[80:178] ~ dmnorm(zero[80:178],K9) 
+  ## smoothing parameter priors CHECK...
+  for (i in 1:18) {
+    lambda[i] ~ dgamma(.05,.005)
+    rho[i] <- log(lambda[i])
+  }
+}

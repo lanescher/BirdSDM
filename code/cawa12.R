@@ -7,17 +7,18 @@
 ##  Canada warbler (CAWA)
 ## 
 ## Input:
-##    
+##  train1.csv
+##  test2.csv
 ##
 ## Output: 
-##
+##  cawam12.RData
 ##
 ## ---------------------------
 
 ## load packages ---------------------------
+library(plyr)
 library(dplyr)
 library(tibble)
-library(plyr)
 library(mgcv)
 library(jagsUI)
 library(ROCR)
@@ -28,16 +29,13 @@ source('functions.R')
 
 
 ## load data --------------------------------
-train1 <- read.csv("FinalData/TestTrain/train1.csv")
-test2 <- read.csv("FinalData/TestTrain/test2.csv")
-hdat <- read.csv("FinalData/TestTrain/hdat.csv")
+train1 <- read.csv("data/train1.csv")
+test2 <- read.csv("data/test2.csv")
 
 dat12 <- rbind.fill(train1, test2)
 
 
-# Model 12: XX - (CAWA) ---------------------------------------------------
-
-# (full model, validate on current; train1test2)
+# Model 12: R2 - (CAWA) ---------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509,
 #test: eBird- 79510:84969, BBS- 84970:87201
 

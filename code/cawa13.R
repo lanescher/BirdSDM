@@ -2,7 +2,7 @@
 ## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-##  Model 13: XX (no older data or BBA; hdat)
+##  Model 13: O3 (no older data or BBA; hdat)
 ##  Canada warbler (CAWA)
 ## 
 ## Input:
@@ -29,14 +29,10 @@ source('functions.R')
 
 
 ## load data --------------------------------
-train1 <- read.csv("data/train1.csv")
-test2 <- read.csv("data/test2.csv")
 hdat <- read.csv("data/hdat.csv")
 
-dat12 <- rbind.fill(train1, test2)
 
-
-# Model 13: XX - CAWA ---------------------------------------------------------------
+# Model 13: O3 - CAWA -----------------------------------------------------
 #train: eBird- 1:10748, BBS- 10749:19556
 #test: eBird- 19557:25016, BBS- 25017:27248
 
