@@ -27,8 +27,8 @@ library(ROCR)
 source('functions.R')
 
 ## load data ---------------------------
-test1 <- read.csv("FinalData/TestTrain/test1.csv")
-train1 <- read.csv("FinalData/TestTrain/train1.csv")
+test1 <- read.csv("data/test1.csv")
+train1 <- read.csv("data/train1.csv")
 
 dat1 <- rbind.fill(train1, test1)
 

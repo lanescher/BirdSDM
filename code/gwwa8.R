@@ -26,7 +26,7 @@ library(ROCR)
 source('functions.R')
 
 ## load data ---------------------------
-covdat <- read.csv("FinalData/TestTrain/covdat.csv")
+covdat <- read.csv("data/covdat.csv")
 
 
 # Model 8: E1 - GWWA ------------------------------------------------------
