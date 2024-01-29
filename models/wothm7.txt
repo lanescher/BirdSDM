@@ -1,46 +1,66 @@
 model {
   eta <- X %*% b ## linear predictor
-  for (i in 1:n) { mu[i] <-  ilogit(eta[i]) } ## expected response
+  
+  for (i in 1:n) { 
+  	mu[i] <-  ilogit(eta[i]) 
+  } ## expected response
 
-  for (i in 1:19829) { z[i] ~ dbern(mu[i])   #eBird train
-                    y[i] ~ dbern(z[i]*pstar[i])
-                    pstar[i] <- 1-(0.5)^E[i]
-                    E[i] <- beta[1]*ehours[i] + beta[2]*ekm[i]} 
+  for (i in 1:19829) { 
+  	z[i] ~ dbern(mu[i])   #eBird train
+  	y[i] ~ dbern(z[i]*pstar[i] + (1-z[i])*fstar[i])
+  	pstar[i] <- 1-(0.5)^E[i]
+  	fstar[i] <- 1-(1-f)^E[i]
+  	E[i] <- beta[1]*ehours[i] + beta[2]*ekm[i]
+  } 
                     
-  for (i in 19830:46832) { z[i] ~ dbern(mu[i])  #BBA train
-                          y[i] ~ dbin(muy[i], 5)
-                          muy[i] <- z[i]*p1[i] 
-                       logit(p1[i]) <- alpha1 + beta[3]*hsm[i-19829]*hsm[i-19829] + beta[4]*doy[i-19829]*doy[i-19829]}
+  for (i in 19830:46832) { 
+  	z[i] ~ dbern(mu[i])  #BBA train
+  	y[i] ~ dbin(muy[i], 5)
+  	muy[i] <- z[i]*p1[i] 
+  	logit(p1[i]) <- alpha1 + beta[3]*hsm[i-19829]*hsm[i-19829] + beta[4]*doy[i-19829]*doy[i-19829]
+  }
                           
-  for(i in 46833:79509) {z[i] ~ dbern(mu[i])   #BBS train
-                        y[i] ~ dbern(z[i]*p2[i])
-                        logit(p2[i]) <- alpha2 + beta[5]*doy3[i-46832]*doy3[i-46832]}
+  for(i in 46833:79509) {
+  	z[i] ~ dbern(mu[i])   #BBS train
+  	y[i] ~ dbern(z[i]*p2[i])
+  	logit(p2[i]) <- alpha2 + beta[5]*doy3[i-46832]*doy3[i-46832]
+  }
   
   
-  for (i in 79510:88726) { z2[i] ~ dbern(mu[i])   #eBird test
-                           y2[i-79509] ~ dbern(z2[i]*pstar[i])
-                           pstar[i] <- 1-(0.5)^E[i]
-                           E[i] <- beta[1]*ehours2[i-79509] + beta[2]*ekm2[i-79509]} 
+  for (i in 79510:88726) { 
+  	z2[i] ~ dbern(mu[i])   #eBird test
+  	y2[i-79509] ~ dbern(z2[i]*pstar[i] + (1-z2[i])*fstar[i])
+  	pstar[i] <- 1-(0.5)^E[i]
+  	fstar[i] <- 1-(1-f)^E[i]
+  	E[i] <- beta[1]*ehours2[i-79509] + beta[2]*ekm2[i-79509]
+  } 
   
-  for (i in 88727:95456) { z2[i] ~ dbern(mu[i])  #BBA test
-                          y2[i-79509] ~ dbin(muy[i], 5)
-                          muy[i] <- z2[i]*p1[i] 
-                       logit(p1[i]) <- alpha1 + beta[3]*hsm2[i-88726]*hsm2[i-88726] + beta[4]*doy2[i-88726]*doy2[i-88726]}
+  for (i in 88727:95456) { 
+  	z2[i] ~ dbern(mu[i])  #BBA test
+  	y2[i-79509] ~ dbin(muy[i], 5)
+  	muy[i] <- z2[i]*p1[i] 
+  	logit(p1[i]) <- alpha1 + beta[3]*hsm2[i-88726]*hsm2[i-88726] + beta[4]*doy2[i-88726]*doy2[i-88726]
+  }
 
-  for(i in 95457:103729) {z2[i] ~ dbern(mu[i])   #BBS test
-                          y2[i-79509] ~ dbern(z2[i]*p2[i])
-                          logit(p2[i]) <- alpha2 + beta[5]*doy4[i-95456]*doy4[i-95456]}
+  for(i in 95457:103729) {
+  	z2[i] ~ dbern(mu[i])   #BBS test
+  	y2[i-79509] ~ dbern(z2[i]*p2[i])
+  	logit(p2[i]) <- alpha2 + beta[5]*doy4[i-95456]*doy4[i-95456]
+  }
   
   
   #Priors                
   for (j in 1:2){
-  beta[j] ~ dunif(0, 20)
+  	beta[j] ~ dunif(0, 20)
   }
+  
   for (k in 3:5){
-  beta[k] ~ dnorm(0, 0.01)
+  	beta[k] ~ dnorm(0, 0.01)
   }
+  
   alpha1 ~ dnorm(0, 0.01)
   alpha2 ~ dnorm(0, 0.01)
+  f ~ dunif(0,0.25)
 
 
   ## Parametric effect priors CHECK tau=1/6.6^2 is appropriate!
