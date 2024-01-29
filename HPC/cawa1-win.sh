@@ -1,6 +1,7 @@
 #!/bin/bash
  
 #SBATCH --job-name=fiona
+#SBATCH --array=1-8:1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=3
 #SBATCH --mem-per-cpu=30000
@@ -10,8 +11,8 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmummah@usgs.gov
-#SBATCH -o fiona/M1-%j.out
-#SBATCH -e fiona/M1-%j.out
+#SBATCH -o fiona/cawa-%A_%a.out
+#SBATCH -e fiona/cawa-%A_%a.out
 
 
 ## Load modules (you can see options using 'module avail')
@@ -29,7 +30,7 @@ module load jags/4.3.1 cray-R/4.2.1.2
 
 
 ## Set the name of the R script to run, and the directory in which to save outputs
-script=/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/code/cawa1.R
+script=/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/runcawa.R
 
 
 # run your script:

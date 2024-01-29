@@ -8,10 +8,10 @@
 args = commandArgs(trailingOnly = TRUE)
 
 spp <- 'cawa'
-mod <- c(1:8,10:16)
+# mod <- c(1:8,10:16)
 i=args[1]
 
-source(paste0('/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/code/cawa',mod[i],".R"))
+source(paste0('/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/code/cawa',i,".R"))
 
 # End script
 
