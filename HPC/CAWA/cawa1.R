@@ -2,25 +2,25 @@
 ## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-## 
-## Canada Warbler models 1-7
+## Model 1: R1 (reference) 
+## Canada warbler (CAWA)
 ##
 ## Input:
-##   
+##   test1.csv
+##   train1.csv
 ##
 ## Output: 
-##
+##   cawam1.RData
 ##
 
 ## load packages ---------------------------
-# library(tidyverse)
 library(plyr)
 library(dplyr)
 library(tibble)
-library(magrittr)
 library(mgcv)
 library(jagsUI)
 library(ROCR)
+
 
 path = '/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/'
 
@@ -34,8 +34,8 @@ generate.code <- function(dat) {
 }
 
 ## load data ---------------------------
-test1 <- read.csv(paste0(path,"data/test1.csv"))
-train1 <- read.csv(paste0(path,"data/train1.csv"))
+test1 <- read.csv(paste0(path, "data/test1.csv"))
+train1 <- read.csv(paste0(path, "data/train1.csv"))
 
 dat1 <- rbind.fill(train1, test1)
 
@@ -50,8 +50,8 @@ test.eBird = 79510:88726
 test.BBA = 88727:95456
 test.BBS = 95457:103729
 
-
 m1 <- generate.code(dat1)
+
 
 # Use the output found in placeholder.txt in the JAGS model file: cawam1.txt
 
@@ -83,7 +83,7 @@ initsm1 <- function(){
 outm1 <- jags(data = datm1,
               parameters.to.save = c("beta","b","y2"),
               inits = initsm1,
-              model.file = paste0(path,"models/cawam1.txt"),
+              model.file = paste0(path, "models/cawam1.txt"),
               n.chains = 3,
               n.thin = 2,
               n.adapt = 500,
@@ -91,9 +91,10 @@ outm1 <- jags(data = datm1,
               n.iter = 2500,
               parallel = TRUE)
 
+
 ### Performance metrics -----------------------------------------------------
 
-# Full Deviance
+#Full Deviance
 m1_yp <- outm1$mean$y2
 m1_yt <- c(dat1$cawadet[test.eBird], dat1$cawatot[test.BBA], dat1$cawadet[test.BBS])
 m1_yt <- cbind(m1_yt, c(1 - dat1$cawadet[test.eBird], 5 - dat1$cawatot[test.BBA], 1 - dat1$cawadet[test.BBS]))
@@ -130,39 +131,12 @@ pred1 <- prediction(as.numeric(outm1$mean$y2[9218:24220]), dat1$cawadet[88727:10
 auc1 <- performance(pred1, measure = "auc")
 auc1 <- auc1@y.values[[1]]
 
-# roc1 <- roc(dat1$cawadet[88642:103748], as.numeric(outm1$mean$y2[9218:24220]),
-# ci.auc=TRUE, auc=TRUE, parallel=TRUE)
-
 
 # Save CAWA M1 file
 save(outm1, m1, datm1, m1_dev, Em1_dev, Am1_dev, Sm1_dev,
-     brier1, pred1, auc1,
-     file = paste0(path,"results/out/cawam1.RData"))
-
-
-### GAMs --------------------------------------------------------------------
-
-#Sim2Jam
-require(rjags)
-# load("results/out/cawam1.RData")
-
-jm1 <- jags.model(paste0(path,"models/cawam1.txt"), 
-                  data=datm1, 
-                  inits=initsm1, 
-                  n.adapt=500, 
-                  n.chains=3)
-update(jm1, 500)
-
-sam1 <- jags.samples(jm1, c("b","rho"), n.iter=2000, thin=2)
-jam1 <- sim2jam(sam1, m1$pregam)
-
-save(m1, datm1, jm1, sam1, jam1,
-     file = paste0(path,"results/jams/cawam1jam.RData"))
-
-# Base plotting of GAMs
-# pdf("FinalResults/Plots/cawam1cov.pdf")
-# plot(jam1, pages=1)
-# dev.off()
+     brier1, pred1, auc1, initsm1,
+     file = paste0(path, "results/out/cawam1.RData"))
 
 
 # End script
+
