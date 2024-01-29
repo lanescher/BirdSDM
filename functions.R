@@ -16,11 +16,9 @@
 ## ---------------------------
 
 ## load packages ---------------------------
-library(tidyverse)
-library(magrittr)
-library(sf)
 library(mgcv)
 library(ROCR)
+library(rjags)
 
 
 ## load functions ---------------------------
