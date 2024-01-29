@@ -27,7 +27,7 @@ model {
   
   
   for (i in 79510:84969) { 
-    2[i] ~ dbern(mu[i])   #eBird test
+    z2[i] ~ dbern(mu[i])   #eBird test
     y2[i-79509] ~ dbern(z2[i]*pstar[i])
     pstar[i] <- 1-(0.5)^E[i]
     E[i] <- beta[1]*ehours2[i-79509] + beta[2]*ekm2[i-79509]
