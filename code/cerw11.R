@@ -39,7 +39,7 @@ datm11 <- list(y = c(covdat2$cerwdet[1:14725], covdat2$cerwtot[14726:41728], cov
                X = m11$jags.data$X, n = m11$jags.data$n, zero = m11$jags.data$zero,
                S1 = m11$jags.data$S1, S2 = m11$jags.data$S2, S3 = m11$jags.data$S3,
                S4 = m11$jags.data$S4, S5 = m11$jags.data$S5, S6 = m11$jags.data$S6,
-               S7 = m11$jags.data$S7, S8 = m11$jags.data$S8, S9 = m11$jags.data$S9,
+               S7 = m11$jags.data$S7, 
                ehours = covdat2$duration_minutes[1:14725], 
                ehours2 = covdat2$duration_minutes[74406:83622], 
                hsm = covdat2$hsm[14726:41728],

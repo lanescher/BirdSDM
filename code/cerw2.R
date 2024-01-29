@@ -42,7 +42,7 @@ datm2 <- list(y = c(dat2$cerwdet[1:20361], dat2$cerwtot[20362:47364], dat2$cerwd
               X = m2$jags.data$X, n = m2$jags.data$n, zero = m2$jags.data$zero,
               S1 = m2$jags.data$S1, S2 = m2$jags.data$S2, S3 = m2$jags.data$S3,
               S4 = m2$jags.data$S4, S5 = m2$jags.data$S5, S6 = m2$jags.data$S6,
-              S7 = m2$jags.data$S7, S8 = m2$jags.data$S8, S9 = m2$jags.data$S9,
+              S7 = m2$jags.data$S7, 
               ehours = dat2$duration_minutes[1:20361], 
               ekm = dat2$effort_distance_km[1:20361], 
               ehours2 = dat2$duration_minutes[80042:89258], 
