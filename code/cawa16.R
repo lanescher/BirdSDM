@@ -15,9 +15,9 @@
 ## ---------------------------
 
 ## load packages ---------------------------
+library(plyr)
 library(dplyr)
 library(tibble)
-library(plyr)
 library(mgcv)
 library(jagsUI)
 library(ROCR)
@@ -54,7 +54,7 @@ datm16 <- list(y = c(dat1$cawadet[1:19829], dat1$cawatot[19830:46832], dat1$cawa
               X = m16$jags.data$X, n = m16$jags.data$n, zero = m16$jags.data$zero,
               S1 = m16$jags.data$S1, S2 = m16$jags.data$S2, S3 = m16$jags.data$S3,
               S4 = m16$jags.data$S4, S5 = m16$jags.data$S5, S6 = m16$jags.data$S6,
-              S7 = m16$jags.data$S7, S8 = m16$jags.data$S8, S9 = m16$jags.data$S9, 
+              S7 = m16$jags.data$S7, 
               ehours = dat1$duration_minutes[1:19829], 
               ekm = dat1$effort_distance_km[1:19829],
               ehours2 = dat1$duration_minutes[79510:88726], 

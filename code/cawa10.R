@@ -39,7 +39,7 @@ datm10 <- list(y = c(covdat$cawatot[117937:144939], covdat$cawadet[144940:177616
                X = m10$jags.data$X, n = m10$jags.data$n, zero = m10$jags.data$zero,
                S1 = m10$jags.data$S1, S2 = m10$jags.data$S2, S3 = m10$jags.data$S3,
                S4 = m10$jags.data$S4, S5 = m10$jags.data$S5, S6 = m10$jags.data$S6,
-               S7 = m10$jags.data$S7, S8 = m10$jags.data$S8, S9 = m10$jags.data$S9,
+               S7 = m10$jags.data$S7, 
                ehours2 = covdat$duration_minutes[177617:186833], 
                ekm2 = covdat$effort_distance_km[177617:186833], 
                hsm = covdat$hsm[117937:144939],

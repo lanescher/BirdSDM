@@ -31,7 +31,6 @@ source('functions.R')
 ## load data --------------------------------
 train1 <- read.csv("data/train1.csv")
 test2 <- read.csv("data/test2.csv")
-hdat <- read.csv("data/hdat.csv")
 
 dat12 <- rbind.fill(train1, test2)
 
@@ -46,7 +45,7 @@ datm15 <- list(y = c(dat12$cawadet[1:19829], dat12$cawatot[19830:46832], dat12$c
                X = m15$jags.data$X, n = m15$jags.data$n, zero = m15$jags.data$zero,
                S1 = m15$jags.data$S1, S2 = m15$jags.data$S2, S3 = m15$jags.data$S3,
                S4 = m15$jags.data$S4, S5 = m15$jags.data$S5, S6 = m15$jags.data$S6,
-               S7 = m15$jags.data$S7, S8 = m15$jags.data$S8, S9 = m15$jags.data$S9, 
+               S7 = m15$jags.data$S7, 
                ehours = dat12$duration_minutes[1:19829], 
                ekm = dat12$effort_distance_km[1:19829],
                ehours2 = dat12$duration_minutes[79510:84969], 
