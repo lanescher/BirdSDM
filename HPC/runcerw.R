@@ -9,7 +9,7 @@ args = commandArgs(trailingOnly = TRUE)
 
 i=args[1]
 
-source(paste0('/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/code/cawa',i,".R"))
+source(paste0('/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/code/cerw',i,".R"))
 
 # End script
 
