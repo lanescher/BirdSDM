@@ -15,7 +15,6 @@
 
 ## load packages ---------------------------
 library(plyr)
-library(magrittr)
 library(dplyr)
 library(tibble)
 library(mgcv)
