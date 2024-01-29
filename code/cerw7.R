@@ -102,10 +102,6 @@ Sm7_yp <- 0.0001 + Sm7_yp*0.9998
 Sm7_dev <- -2*sum(log((Sm7_yp^Sm7_yt[,1])*((1-Sm7_yp)^(Sm7_yt[,2]))))
 
 
-save(outm7, m7, datm7, m7_dev, Em7_dev, Am7_dev, Sm7_dev, 
-     brier7, pred7, auc7, initsm7,
-     file = "results/out/cerwm7.RData")
-
 # Brier score
 brier7 <- mean((outm7$mean$y2[9218:24220] - dat1$cerwdet[88727])^2)
 
@@ -115,6 +111,10 @@ pred7 <- prediction(as.numeric(outm7$mean$y2[9218:24220]), dat1$cerwdet[88727:10
 auc7 <- performance(pred7, measure = "auc")
 auc7 <- auc7@y.values[[1]]
 
+
+save(outm7, m7, datm7, m7_dev, Em7_dev, Am7_dev, Sm7_dev, 
+     brier7, pred7, auc7, initsm7,
+     file = "results/out/cerwm7.RData")
 
 # End script
 

@@ -29,8 +29,8 @@ source('functions.R')
 
 
 ## load data --------------------------------
-train1 <- read.csv("FinalData/TestTrain/train1.csv")
-test2 <- read.csv("FinalData/TestTrain/test2.csv")
+train1 <- read.csv("data/train1.csv")
+test2 <- read.csv("data/test2.csv")
 
 dat12 <- rbind.fill(train1, test2)
 
