@@ -35,7 +35,7 @@ dat1 <- rbind.fill(train1, test1)
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509
 #test: eBird- 79510:88726, BBA- 88727:95456, BBS- 95457:103729
 
-m5 <- jagam(dat1)
+m5 <- generate.code(dat1)
 
 datm5 <- list(y = c(dat1$gwwadet[1:19829], dat1$gwwatot[19830:46832], dat1$gwwadet[46833:79509]), 
               X = m5$jags.data$X, n = m5$jags.data$n, zero = m5$jags.data$zero,
