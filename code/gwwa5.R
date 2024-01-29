@@ -25,8 +25,8 @@ library(ROCR)
 source('functions.R')
 
 ## load data ---------------------------
-test1 <- read.csv("FinalData/TestTrain/test1.csv")
-train1 <- read.csv("FinalData/TestTrain/train1.csv")
+test1 <- read.csv("data/test1.csv")
+train1 <- read.csv("data/train1.csv")
 
 dat1 <- rbind.fill(train1, test1)
 
@@ -41,7 +41,7 @@ datm5 <- list(y = c(dat1$gwwadet[1:19829], dat1$gwwatot[19830:46832], dat1$gwwad
               X = m5$jags.data$X, n = m5$jags.data$n, zero = m5$jags.data$zero,
               S1 = m5$jags.data$S1, S2 = m5$jags.data$S2, S3 = m5$jags.data$S3,
               S4 = m5$jags.data$S4, S5 = m5$jags.data$S5, S6 = m5$jags.data$S6,
-              S7 = m5$jags.data$S7, S8 = m5$jags.data$S8, S9 = m5$jags.data$S9,
+              S7 = m5$jags.data$S7, 
               hsm = dat1$hsm[19830:46832],
               hsm2 = dat1$hsm[88727:95456], 
               doy = dat1$doy[19830:46832],
