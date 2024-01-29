@@ -25,13 +25,7 @@ library(ROCR)
 path = '/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/'
 
 ## load functions ---------------------------
-# Generate code for GAMs
-generate.code <- function(dat) {
-  jagam(cawadet ~ s(elev, k=10) + s(slope, k=10) + #s(temp, k=10) +
-          s(ppt, k=10) + s(can, k=10) + s(dev, k=10) + #s(forest, k=10) +
-          s(road, k=10) + s(longitude, latitude, bs='ds', k=100),
-        data = dat, family='binomial', file = paste0(path,'placeholder.txt'))
-}
+source(paste0(path,'functions.R'))
 
 ## load data ---------------------------
 test1 <- read.csv(paste0(path,"data/test1.csv"))
@@ -49,7 +43,7 @@ datm4 <- list(y = c(dat4$cawadet[1:117936], dat4$cawatot[117937:144939], dat4$ca
               X = m4$jags.data$X, n = m4$jags.data$n, zero = m4$jags.data$zero,
               S1 = m4$jags.data$S1, S2 = m4$jags.data$S2, S3 = m4$jags.data$S3,
               S4 = m4$jags.data$S4, S5 = m4$jags.data$S5, S6 = m4$jags.data$S6,
-              S7 = m4$jags.data$S7, S8 = m4$jags.data$S8, S9 = m4$jags.data$S9,
+              S7 = m4$jags.data$S7, 
               ehours = dat4$duration_minutes[1:117936], 
               ekm = dat4$effort_distance_km[1:117936], 
               ehours2 = dat4$duration_minutes[177617:186833], 
