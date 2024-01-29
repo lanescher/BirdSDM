@@ -54,10 +54,13 @@ model {
 
  
   ## Parametric effect priors CHECK tau=1/11^2 is appropriate!
-  for (i in 1:1) { b[i] ~ dnorm(0,0.0088) }
+  b[1] ~ dnorm(0,0.0088)
+  b[2] ~ dunif(0,10) #ebird count
+  b[3] ~ dunif(-10,0) #lists
+  
   ## prior for s(elev)... 
   K1 <- S1[1:9,1:9] * lambda[1]  + S1[1:9,10:18] * lambda[2]
-  b[2:10] ~ dmnorm(zero[2:10],K1) 
+  b[4:10] ~ dmnorm(zero[4:10],K1) 
   ## prior for s(slope)... 
   K2 <- S2[1:9,1:9] * lambda[3]  + S2[1:9,10:18] * lambda[4]
   b[11:19] ~ dmnorm(zero[11:19],K2) 
