@@ -11,8 +11,8 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmummah@usgs.gov
-#SBATCH -o fiona/cawa-%A_%a.out
-#SBATCH -e fiona/cawa-%A_%a.out
+#SBATCH -o fiona/cawa1-%A_%a.out
+#SBATCH -e fiona/cawa1-%A_%a.out
 
 
 ## Load modules (you can see options using 'module avail')

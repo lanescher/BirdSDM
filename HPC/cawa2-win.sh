@@ -1,7 +1,7 @@
 #!/bin/bash
  
 #SBATCH --job-name=fiona
-#SBATCH --array=1-8:1
+#SBATCH --array=10-16:1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=3
 #SBATCH --mem-per-cpu=30000
@@ -11,8 +11,8 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmummah@usgs.gov
-#SBATCH -o fiona/cawa-%A_%a.out
-#SBATCH -e fiona/cawa-%A_%a.out
+#SBATCH -o fiona/cawa2-%A_%a.out
+#SBATCH -e fiona/cawa2-%A_%a.out
 
 
 ## Load modules (you can see options using 'module avail')
