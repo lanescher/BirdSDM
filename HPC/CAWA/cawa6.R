@@ -24,13 +24,7 @@ library(ROCR)
 path = '/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/'
 
 ## load functions ---------------------------
-# Generate code for GAMs
-generate.code <- function(dat) {
-  jagam(cawadet ~ s(elev, k=10) + s(slope, k=10) + #s(temp, k=10) +
-          s(ppt, k=10) + s(can, k=10) + s(dev, k=10) + #s(forest, k=10) +
-          s(road, k=10) + s(longitude, latitude, bs='ds', k=100),
-        data = dat, family='binomial', file = paste0(path,'placeholder.txt'))
-}
+source(paste0(path,'functions.R'))
 
 ## load data ---------------------------
 test1 <- read.csv(paste0(path,"data/test1.csv"))
@@ -51,7 +45,7 @@ datm6 <- list(y = c(dat4$cawadet[1:117936],
               X = m6$jags.data$X, n = m6$jags.data$n, zero = m6$jags.data$zero,
               S1 = m6$jags.data$S1, S2 = m6$jags.data$S2, S3 = m6$jags.data$S3,
               S4 = m6$jags.data$S4, S5 = m6$jags.data$S5, S6 = m6$jags.data$S6,
-              S7 = m6$jags.data$S7, S8 = m6$jags.data$S8, S9 = m6$jags.data$S9,
+              S7 = m6$jags.data$S7, 
               hsm = dat4$hsm[117937:144939],
               hsm2 = dat4$hsm[186834:193563], 
               doy = dat4$doy[117937:144939],
