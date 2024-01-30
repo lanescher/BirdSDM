@@ -44,7 +44,8 @@ generate.jam <- function(mod.name, dat, inits, pregam) {
   sam <- jags.samples(j, c("b","rho"), n.iter=2000, thin=2)
   jam <- sim2jam(sam, pregam)
 
-  return(list(j=j, sam=sam, jam=jam))
+  save(j, sam, jam,
+       file = paste0("results/jams/",mod.name,"jam.RData"))
 }
 
 
