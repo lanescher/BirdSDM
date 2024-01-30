@@ -110,7 +110,7 @@ auc6 <- auc6@y.values[[1]]
 
 
 save(outm6, m6, datm6, m6_dev, Em6_dev, Am6_dev, Sm6_dev,
-     brier6, pred6, auc6, initsm6m,
+     brier6, pred6, auc6, initsm6,
      file = "results/out/cawam6.RData")
 
 # End script
