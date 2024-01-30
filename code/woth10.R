@@ -35,7 +35,7 @@ covdat2$duration_minutes[12729] <- mean(covdat2$duration_minutes[1:14725])
 #train: eBird- 1:117936, BBA- 117937:144939, BBS- 144940:177616,
 #test: eBird- 177617:186833, BBA- 186834:193563, BBS- 193564:201836,
 
-m10 <- generate.code(covdat)
+m10 <- generate.code(covdat2)
 
 datm10 <- list(y = c(covdat$wothtot[117937:144939], covdat$wothdet[144940:177616]), 
                X = m10$jags.data$X, n = m10$jags.data$n, zero = m10$jags.data$zero,
