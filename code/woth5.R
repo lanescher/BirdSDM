@@ -3,14 +3,14 @@
 
 ## Objective ---------------------------
 ## Model 5: F5 (no eBird effort)
-## Canada warbler (CAWA)
+## Wood thrush (WOTH)
 ## 
 ## Input:
 ##   test1.csv
 ##   train1.csv
 ##
 ## Output: 
-##   cawam5.RData
+##   wothm5.RData
 ##
 
 ## load packages ---------------------------
@@ -31,13 +31,14 @@ train1 <- read.csv("data/train1.csv")
 dat1 <- rbind.fill(train1, test1)
 
 
+
 # Model 5: F5 - CAWA ------------------------------------------------------
 #train: eBird- 1:19829, BBA- 19830:46832, BBS- 46833:79509
 #test: eBird- 79510:88726, BBA- 88727:95456, BBS- 95457:103729
 
 m5 <- generate.code(dat1)
 
-datm5 <- list(y = c(dat1$cawadet[1:19829], dat1$cawatot[19830:46832], dat1$cawadet[46833:79509]), 
+datm5 <- list(y = c(dat1$wothdet[1:19829], dat1$wothtot[19830:46832], dat1$wothdet[46833:79509]), 
               X = m5$jags.data$X, n = m5$jags.data$n, zero = m5$jags.data$zero,
               S1 = m5$jags.data$S1, S2 = m5$jags.data$S2, S3 = m5$jags.data$S3,
               S4 = m5$jags.data$S4, S5 = m5$jags.data$S5, S6 = m5$jags.data$S6,
@@ -59,55 +60,56 @@ initsm5 <- function(){
 outm5 <- jags(data = datm5, 
               parameters.to.save = c("beta","b","y2"), 
               inits = initsm5, 
-              model.file = "models/cawam5.txt", 
+              model.file = "models/wothm5.txt", 
               n.chains = 3, 
               n.thin = 2, 
               n.adapt = 500, 
               n.burnin = 500, 
-              n.iter = 2500)
+              n.iter = 2500,
+              parallel = TRUE)
 
 
 ### Performance metrics -----------------------------------------------------
 
 #Full Deviance
 m5_yp <- outm5$mean$y2
-m5_yt <- c(dat1$cawadet[79510:88726], dat1$cawatot[88727:95456], dat1$cawadet[95457:103729])
-m5_yt <- cbind(m5_yt, c(1 - dat1$cawadet[79510:88726], 5 - dat1$cawatot[88727:95456], 1 - dat1$cawadet[95457:103729]))
+m5_yt <- c(dat1$wothdet[79510:88726], dat1$wothtot[88727:95456], dat1$wothdet[95457:103729])
+m5_yt <- cbind(m5_yt, c(1 - dat1$wothdet[79510:88726], 5 - dat1$wothtot[88727:95456], 1 - dat1$wothdet[95457:103729]))
 m5_yp[9218:15947] <- m5_yp[9287:16204]/5
 m5_yp <- 0.0001 + m5_yp*0.9998
 m5_dev <- -2*sum(log((m5_yp^m5_yt[,1])*((1-m5_yp)^(m5_yt[,2]))))
 #eBird deviance
 Em5_yp <- outm5$mean$y2[1:9217]
-Em5_yt <- c(dat1$cawadet[79510:88726])
-Em5_yt <- cbind(Em5_yt, c(1 - dat1$cawadet[79510:88726]))
+Em5_yt <- c(dat1$wothdet[79510:88726])
+Em5_yt <- cbind(Em5_yt, c(1 - dat1$wothdet[79510:88726]))
 Em5_yp <- 0.0001 + Em5_yp*0.9998
 Em5_dev <- -2*sum(log((Em5_yp^Em5_yt[,1])*((1-Em5_yp)^(Em5_yt[,2]))))
 #BBA deviance
 Am5_yp <- outm5$mean$y2[9218:15947]
-Am5_yt <- c(dat1$cawatot[88727:95456])
-Am5_yt <- cbind(Am5_yt, c(5 - dat1$cawatot[88727:95456]))
+Am5_yt <- c(dat1$wothtot[88727:95456])
+Am5_yt <- cbind(Am5_yt, c(5 - dat1$wothtot[88727:95456]))
 Am5_yp <- Am5_yp/5
 Am5_yp <- 0.0001 + Am5_yp*0.9998
 Am5_dev <- -2*sum(log((Am5_yp^Am5_yt[,1])*((1-Am5_yp)^(Am5_yt[,2]))))
 #BBS deviance
 Sm5_yp <- outm5$mean$y2[15948:24220]
-Sm5_yt <- c(dat1$cawadet[95457:103729])
-Sm5_yt <- cbind(Sm5_yt, c(1 - dat1$cawadet[95457:103729]))
+Sm5_yt <- c(dat1$wothdet[95457:103729])
+Sm5_yt <- cbind(Sm5_yt, c(1 - dat1$wothdet[95457:103729]))
 Sm5_yp <- 0.0001 + Sm5_yp*0.9998
 Sm5_dev <- -2*sum(log((Sm5_yp^Sm5_yt[,1])*((1-Sm5_yp)^(Sm5_yt[,2]))))
 
 
 # Brier score
-brier5 <- mean((outm5$mean$y2[9218:24220] - dat1$cawadet[88727:103729])^2)
+brier5 <- mean((outm5$mean$y2[9218:24220] - dat1$wothdet[88727:103729])^2)
 
 # AUC
-pred5 <- prediction(as.numeric(outm5$mean$y2[9218:24220]), dat1$cawadet[88727:103729])
+pred5 <- prediction(as.numeric(outm5$mean$y2[9218:24220]), dat1$wothdet[88727:103729])
 auc5 <- performance(pred5, measure = "auc")
 auc5 <- auc5@y.values[[1]]
 
-
-save(outm5, m5, m5_dev, Em5_dev, Am5_dev, Sm5_dev, 
+save(outm5, m5, datm5, m5_dev, Em5_dev, Am5_dev, Sm5_dev, 
      brier5, pred5, auc5, initsm5,
-     file = "results/out/cawam5.RData")
+     file = "results/out/wothm5.RData")
+
 
 # End script
