@@ -3,14 +3,14 @@
 
 ## Objective ---------------------------
 ## Model 3: F2 (no eBird spatial balancing)
-## Canada warbler (CAWA)
+## Wood thrush (WOTH)
 ## 
 ## Input:
 ##   test1.csv
 ##   train3.csv
 ##
 ## Output: 
-##   cawam3.RData
+##   wothm3.RData
 ##
 
 
@@ -31,14 +31,16 @@ train3 <- read.csv("data/train3.csv")
 
 dat3 <- rbind.fill(train3, test1)
 
+dat3$duration_minutes[62549] <- mean(dat3$duration_minutes, na.rm=TRUE)
+
 
 # Model 3: F2 - CAWA ------------------------------------------------------
 #train: eBird- 1:111728, BBA- 111729:138731, BBS- 138732:171408
-#test: eBird- 171409:180625, BBA- 180626:187355, BBS- 187356:195628
+#test: eBird- 171409:180625, BBA- 180626:187355, 187356:195628
 
 m3 <- generate.code(dat3)
 
-datm3 <- list(y = c(dat3$cawadet[1:111728], dat3$cawatot[111729:138731], dat3$cawadet[138732:171408]), 
+datm3 <- list(y = c(dat3$wothdet[1:111728], dat3$wothtot[111729:138731], dat3$wothdet[138732:171408]), 
               X = m3$jags.data$X, n = m3$jags.data$n, zero = m3$jags.data$zero,
               S1 = m3$jags.data$S1, S2 = m3$jags.data$S2, S3 = m3$jags.data$S3,
               S4 = m3$jags.data$S4, S5 = m3$jags.data$S5, S6 = m3$jags.data$S6,
@@ -64,55 +66,55 @@ initsm3 <- function(){
 outm3 <- jags(data = datm3, 
               parameters.to.save = c("beta","b","y2"), 
               inits = initsm3, 
-              model.file = "models/cawam3.txt", 
+              model.file = "models/wothm3.txt", 
               n.chains = 3, 
               n.thin = 2, 
               n.adapt = 500, 
               n.burnin = 500, 
-              n.iter = 2500)
+              n.iter = 2500,
+              parallel = TRUE)
 
 
 ### Performance metrics -----------------------------------------------------
 
 #Full Deviance
 m3_yp <- outm3$mean$y2
-m3_yt <- c(dat3$cawadet[171409:180625], dat3$cawatot[180626:187355], dat3$cawadet[187356:195628])
-m3_yt <- cbind(m3_yt, c(1 - dat3$cawadet[171409:180625], 5 - dat3$cawatot[180626:187355], 1 - dat3$cawadet[187356:195628]))
+m3_yt <- c(dat3$wothdet[171409:180625], dat3$wothtot[180626:187355], dat3$wothdet[187356:195628])
+m3_yt <- cbind(m3_yt, c(1 - dat3$wothdet[171409:180625], 5 - dat3$wothtot[180626:187355], 1 - dat3$wothdet[187356:195628]))
 m3_yp[9218:15947] <- m3_yp[9218:15947]/5
 m3_yp <- 0.0001 + m3_yp*0.9998
 m3_dev <- -2*sum(log((m3_yp^m3_yt[,1])*((1-m3_yp)^(m3_yt[,2]))))
 #eBird deviance
 Em3_yp <- outm3$mean$y2[1:9217]
-Em3_yt <- c(dat3$cawadet[171409:180625])
-Em3_yt <- cbind(Em3_yt, c(1 - dat3$cawadet[171409:180625]))
+Em3_yt <- c(dat3$wothdet[171409:180625])
+Em3_yt <- cbind(Em3_yt, c(1 - dat3$wothdet[171409:180625]))
 Em3_yp <- 0.0001 + Em3_yp*0.9998
 Em3_dev <- -2*sum(log((Em3_yp^Em3_yt[,1])*((1-Em3_yp)^(Em3_yt[,2]))))
 #BBA deviance
 Am3_yp <- outm3$mean$y2[9218:15947]
-Am3_yt <- c(dat3$cawatot[180626:187355])
-Am3_yt <- cbind(Am3_yt, c(5 - dat3$cawatot[180626:187355])) 
+Am3_yt <- c(dat3$wothtot[180626:187355])
+Am3_yt <- cbind(Am3_yt, c(5 - dat3$wothtot[180626:187355])) 
 Am3_yp <- Am3_yp/5
 Am3_yp <- 0.0001 + Am3_yp*0.9998
 Am3_dev <- -2*sum(log((Am3_yp^Am3_yt[,1])*((1-Am3_yp)^(Am3_yt[,2]))))
 #BBS deviance
 Sm3_yp <- outm3$mean$y2[15948:24220]
-Sm3_yt <- c(dat3$cawadet[187356:195628])
-Sm3_yt <- cbind(Sm3_yt, c(1 - dat3$cawadet[187356:195628]))
+Sm3_yt <- c(dat3$wothdet[187356:195628])
+Sm3_yt <- cbind(Sm3_yt, c(1 - dat3$wothdet[187356:195628]))
 Sm3_yp <- 0.0001 + Sm3_yp*0.9998
 Sm3_dev <- -2*sum(log((Sm3_yp^Sm3_yt[,1])*((1-Sm3_yp)^(Sm3_yt[,2]))))
 
 
 # Brier score
-brier3 <- mean((outm3$mean$y2[9218:24220] - dat3$cawadet[180626:195628])^2)
+brier3 <- mean((outm3$mean$y2[9218:24220] - dat3$wothdet[180626:195628])^2)
 
 # AUC
-pred3 <- prediction(as.numeric(outm3$mean$y2[9218:24220]), dat3$cawadet[180626:195628])
+pred3 <- prediction(as.numeric(outm3$mean$y2[9218:24220]), dat3$wothdet[180626:195628])
 auc3 <- performance(pred3, measure = "auc")
 auc3 <- auc3@y.values[[1]]
 
-
 save(outm3, m3, datm3, m3_dev, Em3_dev, Am3_dev, Sm3_dev, 
      brier3, pred3, auc3, initsm3,
-     file = "results/out/cawam3.RData")
+     file = "results/out/wothm3.RData")
 
 # End script
