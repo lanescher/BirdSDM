@@ -103,7 +103,7 @@ auc13 <- auc13@y.values[[1]]
 
 
 save(outm13, m13, datm13, m13_dev, Em13_dev, Sm13_dev, 
-     brier12, pred13, auc13, initsm13,
+     brier13, pred13, auc13, initsm13,
      file = paste0(path,"results/out/cerwm13.RData"))
 
 # End script
