@@ -79,7 +79,7 @@ outm7 <- jags(data = datm7, parameters.to.save = c("beta","b","y2", "f"),
 m7_yp <- outm7$mean$y2
 m7_yt <- c(dat1$wothdet[79510:88726], dat1$wothtot[88727:95456], dat1$wothdet[95457:103729])
 m7_yt <- cbind(m7_yt, c(1 - dat1$wothdet[79510:88726], 5 - dat1$wothtot[88727:95456], 1 - dat1$wothdet[95457:103729]))
-m7_yp[9218:15947] <- m7_yp[9287:16204]/5
+m7_yp[9218:15947] <- m7_yp[9218:15947]/5
 m7_yp <- 0.0001 + m7_yp*0.9998
 m7_dev <- -2*sum(log((m7_yp^m7_yt[,1])*((1-m7_yp)^(m7_yt[,2]))))
 #eBird deviance
