@@ -34,7 +34,6 @@ source(paste0(path,'functions.R'))
 hdat <- read.csv(paste0(path,"data/hdat.csv"))
 
 
-
 # Model 14: O2 - CAWA -----------------------------------------------------
 #train: eBird- 1:10748, BBS- 10749:19556
 #test: eBird- 19557:25016, BBS- 25017:27248
