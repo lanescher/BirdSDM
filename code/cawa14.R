@@ -24,10 +24,6 @@ library(jagsUI)
 library(ROCR)
 
 
-## load functions ---------------------------
-source('functions.R')
-
-
 ## load data --------------------------------
 hdat <- read.csv("data/hdat.csv")
 
@@ -36,7 +32,11 @@ hdat <- read.csv("data/hdat.csv")
 #train: eBird- 1:10748, BBS- 10749:19556
 #test: eBird- 19557:25016, BBS- 25017:27248
 
-m14 <- generate.code(hdat)
+m14 <- jagam(cawadet ~ s(elev, k=10) + s(slope, k=10) + #s(temp, k=10) +
+               s(ppt, k=10) + s(dev, k=10) + s(forest, k=10) + #s(can, k=10) +
+               s(road, k=10) + s(longitude, latitude, bs='ds', k=100) +
+               lists_ebd + lists_bba + lists_bbs + cawact_ebd + cawact_bba + cawact_bbs,
+             data = hdat, family='binomial', file = 'placeholder.txt')
 
 datm14 <- list(y = c(hdat$cawadet[1:10748], hdat$cawadet[10749:19556]), 
                X = m14$jags.data$X, n = m14$jags.data$n, zero = m14$jags.data$zero,

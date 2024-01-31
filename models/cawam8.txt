@@ -51,10 +51,10 @@ model {
   
   alpha1 ~ dnorm(0, 0.01)
   alpha2 ~ dnorm(0, 0.01)
-  
- 
-  ## Parametric effect priors CHECK tau=1/11^2 is appropriate!
 
+
+  ## Parametric effect priors CHECK tau=1/11^2 is appropriate!
+  
   b[1] ~ dnorm(0,0.0088)
   b[2] ~ dunif(0,10) #ebird count
   b[3] ~ dunif(-10,0) #lists

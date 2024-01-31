@@ -78,7 +78,7 @@ model {
   b[49:57] ~ dmnorm(zero[49:57],K6) 
   ## prior for s(longitude,latitude)... 
   K7 <- S7[1:99,1:99] * lambda[13]  + S7[1:99,100:198] * lambda[14]
-  b[58:156] ~ dmnorm(zero[58:156],K7)  
+  b[58:156] ~ dmnorm(zero[58:156],K7) 
   ## smoothing parameter priors CHECK...
   for (i in 1:14) {
     lambda[i] ~ dgamma(.05,.005)

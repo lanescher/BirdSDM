@@ -2,7 +2,7 @@
 ## This code was written by: fiona lunt
 
 ## Objective ---------------------------
-## Model 8: E1 (false-positive model for eBird, joint-likelihood)
+## Model 8: E2 (eBird covariate model)
 ## Cerulean warbler (CERW) 
 ##
 ## Input:
@@ -28,11 +28,14 @@ source('functions.R')
 covdat <- read.csv("data/covdat.csv")
 
 
-# Model 8: E1 - CERW ------------------------------------------------------
+# Model 8: E2 - CERW ------------------------------------------------------
 #train: eBird- 1:117936, BBA- 117937:144939, BBS- 144940:177616
 #test: eBird- 177617:186833, BBA- 186834:193563, BBS- 193564:201836
 
-m8 <- generate.code(covdat)
+m8 <- jagam(cawadet ~ s(elev, k=10) + s(slope, k=10) + #s(temp, k=10) +
+              s(ppt, k=10) + s(dev, k=10) + s(forest, k=10) + #s(can, k=10) +
+              s(road, k=10) + cerwct_ebd + lists + s(longitude, latitude, bs='ds', k=100),
+            data = covdat, family='binomial', file = 'placeholder.txt')
 
 datm8 <- list(y = c(covdat$cerwtot[117937:144939], covdat$cerwdet[144940:177616]), 
               X = m8$jags.data$X, n = m8$jags.data$n, zero = m8$jags.data$zero,
