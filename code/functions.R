@@ -34,7 +34,7 @@ generate.code <- function(dat) {
 
 generate.jam <- function(mod.name, dat, inits, pregam) {
   
-  j <- jags.model(paste0("models/", mod.name,".txt"),
+  j <- jags.model(paste0("/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/models/", mod.name,".txt"),
                   data=dat,
                   inits=inits,
                   n.adapt=500,
@@ -45,7 +45,7 @@ generate.jam <- function(mod.name, dat, inits, pregam) {
   jam <- sim2jam(sam, pregam)
 
   save(j, sam, jam,
-       file = paste0("results/jams/",mod.name,"jam.RData"))
+       file = paste0("/caldera/hovenweep/projects/usgs/ecosystems/eesc/rmummah/proj05-fiona/results/jams/",mod.name,"jam.RData"))
 }
 
 

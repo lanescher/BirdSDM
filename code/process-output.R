@@ -5,36 +5,28 @@
 ## ---------------------------
 
 ## ---------------------------
-## Objective: 
+## Objective: To import RData files generated from HPC JAGS runs and save
+##            performance metrics (brier score, AUC, deviance)
 ##
 ## 
 ## Input:
-##    
+##    .Rdata files found in results/out folder
 ##
 ## Output: 
-##
+##    performancemetrics.rds
 ##
 ## ---------------------------
 
 ## load packages ---------------------------
 library(tidyverse)
 library(magrittr)
-library(sf)
-
-
-## load functions ---------------------------
-
-
-
-## load data --------------------------------
-
 
 
 # Extract performance metrics from saved .RData results files -------------
 
 # Define set up spp and models
-files <- data <- expand.grid(spp = c('cawa','cerw'),
-                     mod = c(1:2))#c(1:8, 10:16))
+files <- data <- expand.grid(spp = c('cawa','cerw','gwwa','woth'),
+                     mod = c(1:8, 10:16))
 
 for (i in 1:nrow(files)) {
   
@@ -60,7 +52,7 @@ for (i in 1:nrow(files)) {
            mod = files$mod[i]) %>%
     full_join(data,.) -> data
   
-  rm(list = ls()[!ls() %in% c('data','files')])
+  rm(list = ls()[!ls() %in% c('data','files','i')])
   
   print(paste0('Model ', files$mod[i], ' from ', files$spp[i],' is complete.'))
   
@@ -72,7 +64,14 @@ mod.names <- data.frame(num = c(1,2,3,4,5,6,7,8,10,11,12,13,14,15,16),
 
 data %>%
   filter(!is.na(metric)) %>%
-  left_join(., mod.names, by = c('mod' = 'num'))
+  left_join(., mod.names, by = c('mod' = 'num')) %>%
+  mutate(metric = ifelse(grepl('brier', metric), 'brier', 
+                         ifelse(grepl('auc', metric), 'auc',
+                                ifelse(grepl('dev', metric), 'dev', metric)))) -> data
+
+
+saveRDS(data, 'results/performancemetrics.rds')
   
 
+# End script
 
