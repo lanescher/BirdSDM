@@ -52,7 +52,9 @@ datm8 <- list(y = c(covdat$cerwtot[117937:144939], covdat$cerwdet[144940:177616]
               doy4 = covdat$doy[193564:201836])
 
 initsm8 <- function(){
-  list(b = m8$jags.ini$b, 
+  b = m8$jags.ini$b
+  b[3] = -0.001
+  list(b = b,
        lambda = m8$jags.ini$lambda,  
        beta = rep(3, 0.001), 
        z = c(rep(NA, 117936), as.numeric(datm8$y>0)))

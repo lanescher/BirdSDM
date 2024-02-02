@@ -37,8 +37,8 @@ num = mod.name$mod[i]
 load(paste0('results/out/',name[i],'.RData'))
 
 generate.jam(name, 
-             dat = get(grep('datm',ls(), value=T)),
-             inits = get(grep('initsm', ls(), value=T)),
+             dat = get(paste0('datm',num)),
+             inits = get(paste0('initsm',num)),
              pregam = get(paste0('m',num)))
 
 
