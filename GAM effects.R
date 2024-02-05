@@ -4,8 +4,7 @@ library(dplyr)
 
 
 # Define set up spp and models
-files <- data <- expand.grid(spp = c(#'cawa',
-  'cerw','gwwa','woth'),
+files <- data <- expand.grid(spp = c('cawa','cerw','gwwa','woth'),
                              mod = c(1:8, 10:16))
 
 
@@ -51,30 +50,31 @@ for (i in 1:nrow(files)) {
     
 }
 
+mod.names <- data.frame(num = c(1,2,3,4,5,6,7,8,10,11,12,13,14,15,16),
+                        name = c("R1","F1","F2","F3","F5","F6","E1","E2","E3","F4","R2","O3","O2","O1","E4"))
+
 data %>%
-  filter(!is.na(cov)) -> data
+  filter(!is.na(cov)) %>% 
+  left_join(., mod.names, by = c('mod'='num')) -> data
 
 saveRDS(data, 'results/gams.rds')
 
 
 data <- readRDS('results/gams.rds')
 
-mod.names <- data.frame(num = c(1,2,3,4,5,6,7,8,10,11,12,13,14,15,16),
-                        name = c("R1","F1","F2","F3","F5","F6","E1","E2","E3","F4","R2","O3","O2","O1","E4"))
-
-# left_join(data, mod.names, by = c('mod'='num')) %>%
-#   mutate(group = case_when(grep('F',name) ~ 'F',
-#                            grep('E',name) ~ 'E',
-#                            grep('O',name) ~ 'O',
-#                            .default = 'R')) -> data
-
-ggplot(data, aes(x=x)) +
+data %>%
+  separate_wider_position(cols = name,
+                          cols_remove = FALSE,
+                          widths = c('group' = 1, 'num' = 1)) %>%
+  select(-num) %>%
+ggplot(aes(x=x)) +
   geom_ribbon(aes(ymin=fit-se, ymax=fit+se,
                   group=mod, fill=as.factor(mod)),
               alpha=0.25) +
   geom_line(aes(y=fit, group=mod, col=as.factor(mod))) +
   facet_grid(spp~cov, scales = 'free') +
-  labs(x='')
+  labs(x='') +
+  theme_bw()
 
 
 
