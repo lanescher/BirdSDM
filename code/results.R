@@ -95,3 +95,31 @@ ggpubr::ggarrange(q1, q2, ncol = 1,
 
 ggsave(file = "outputs/metrics.jpg",
        height = 6, width = 8)
+
+
+
+### table
+
+tab <- dat_raw %>%
+  mutate(Species = case_when(spp == "cawa" ~ "Canada Warbler",
+                             spp == "cerw" ~ "Cerulean Warbler",
+                             spp == "gwwa" ~ "Golden-winged Warbler",
+                             spp == "woth" ~ "Wood Thrush"),
+         Metric = case_when(metric == "auc" ~ "AUC",
+                            metric == "brier" ~ "Brier Score",
+                            metric == "dev" ~ "Deviance"),
+         Value = case_when(metric == "dev" ~ round(value, 1),
+                           T ~ round(value, 4)),
+         Model = name) %>%
+  select(Species, Value, Model, Metric) %>%
+  pivot_wider(names_from = c("Species", "Metric"), values_from = "Value")
+row.names(tab) <- tab$Model
+
+tab1 <- tab[c("R1", "F1", "F2", "F3", "F4", "F5", "F6"),]
+tab2 <- tab[c("R1", "E1", "E2", "E3", "E4", "R2", "O1", "O2", "O3"),]
+
+
+write.csv(tab1, file = "outputs/metricstab1.csv", row.names = F)
+write.csv(tab2, file = "outputs/metricstab2.csv", row.names = F)
+
+
