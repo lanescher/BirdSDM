@@ -32,8 +32,8 @@ forest <- raster("covariates/NLCD_2016_Land_Cover_L48_20190424/allfor2016proj.ti
 # slope <- raster("S:/MillerLab/Projects/BirdSDM/GIS/slope2016proj.tif")
 road <- st_read("covariates/Roads/PAroads2.shp") %>%
           st_transform(road, crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
-road <- road[c(2:3,6)] %>%
-          tibble::rowid_to_column(road, "ID")
+road <- road[c(2:3,6)]
+road <- tibble::rowid_to_column(road, "ID")
 
 save(elev, can, temp, ppt, dev, forest, road, #slope, road,
      file = 'data/covariates.Rdata')
