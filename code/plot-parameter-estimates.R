@@ -25,7 +25,7 @@ ggplot(data = filter(gam, name == "R1"), aes(x = x)) +
   geom_ribbon(aes(ymin = fit-se, ymax = fit+se, group = species, fill = species),
               alpha=0.3) + 
   geom_line(aes(y=fit, group = species, col = species)) +
-  facet_wrap(~cov, labeller = labeller(cov = labs)) +
+  facet_wrap(~cov, labeller = labeller(cov = labs), scales = "free") +
   labs(x = 'Covariate value', y = "Estimate", fill = "Species", color = "Species") +
   theme_bw() +
   theme(strip.background = element_blank()) +
@@ -81,11 +81,3 @@ tmp <- gam %>%
   summarize(low = min(fit))
 # F2, F3, and F6 have very different values
 
-
-# there are two orange lines that are slightly different. They have high y values
-# at high x values for CAWA forest
-tmp <- gam %>%
-  filter(spp == "cawa", cov == "forest") %>%
-  group_by(name) %>%
-  summarize(high = max(fit))
-# E2 and E3 have slightly different values
