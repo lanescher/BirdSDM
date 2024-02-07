@@ -21,31 +21,30 @@ library(exactextractr)
 library(RColorBrewer)
 
 
-## load data ---------------------------
-# Load rasters
-elev <- raster("covariates/elev_30mDEM/elev2016proj.tif")
-can <- raster("covariates/nlcd_2016_treecanopy_2019_08_31/can2016proj.tif")
-temp <- raster("covariates/PRISM_tmean_30yr/temp2016proj.tif")
-ppt <- raster("covariates/PRISM_ppt_30yr/ppt2016proj.tif")
-dev <-  raster("covariates/NLCD_2016_Land_Cover_L48_20190424/devlan2016proj.tif")
-forest <- raster("covariates/NLCD_2016_Land_Cover_L48_20190424/allfor2016proj.tif")
-slope <- raster("covariates/slope2016proj.tif")
-road <- st_read("covariates/Roads/PAroads2.shp") %>%
-          st_transform(road, crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
-road <- road[c(2:3,6)]
-road <- tibble::rowid_to_column(road, "ID")
+# ## load data ---------------------------
+# # Load rasters
+# elev <- raster("covariates/elev_30mDEM/elev2016proj.tif")
+# can <- raster("covariates/nlcd_2016_treecanopy_2019_08_31/can2016proj.tif")
+# temp <- raster("covariates/PRISM_tmean_30yr/temp2016proj.tif")
+# ppt <- raster("covariates/PRISM_ppt_30yr/ppt2016proj.tif")
+# dev <-  raster("covariates/NLCD_2016_Land_Cover_L48_20190424/devlan2016proj.tif")
+# forest <- raster("covariates/NLCD_2016_Land_Cover_L48_20190424/allfor2016proj.tif")
+# slope <- raster("covariates/slope2016proj.tif")
+# road <- st_read("covariates/Roads/PAroads2.shp") %>%
+#           st_transform(road, crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+# road <- road[c(2:3,6)]
+# road <- tibble::rowid_to_column(road, "ID")
+# 
+# pa <- st_read("covariates/Pennsylvania_State_Boundary/PaState2020_01.shp") %>%
+#   st_transform(crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+# 
+# save(elev, can, temp, ppt, dev, forest, slope, road, pa,
+#      file = 'data/covariates.Rdata')
 
-pa <- st_read("covariates/Pennsylvania_State_Boundary/PaState2020_01.shp") %>%
-  st_transform(crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
-
-save(elev, can, temp, ppt, dev, forest, slope, road, pa,
-     file = 'data/covariates.Rdata')
 
 
 ## Create grid ---------------------------
 load('data/covariates.Rdata')
-
-
 
 grid_pa <- grid2 <- grid3 <- pa %>%
                               st_make_grid(cellsize=1000) %>%
