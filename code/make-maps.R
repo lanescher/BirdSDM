@@ -35,15 +35,17 @@ road <- st_read("covariates/Roads/PAroads2.shp") %>%
 road <- road[c(2:3,6)]
 road <- tibble::rowid_to_column(road, "ID")
 
-save(elev, can, temp, ppt, dev, forest, slope, road,
+pa <- st_read("covariates/Pennsylvania_State_Boundary/PaState2020_01.shp") %>%
+  st_transform(crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+
+save(elev, can, temp, ppt, dev, forest, slope, road, pa,
      file = 'data/covariates.Rdata')
 
 
 ## Create grid ---------------------------
 load('data/covariates.Rdata')
 
-pa <- st_read("covariates/Pennsylvania_State_Boundary/PaState2020_01.shp") %>%
-      st_transform(crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+
 
 grid_pa <- grid2 <- grid3 <- pa %>%
                               st_make_grid(cellsize=1000) %>%
