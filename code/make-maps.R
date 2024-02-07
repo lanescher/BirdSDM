@@ -94,6 +94,7 @@ grid3$slope <- raster::extract(slope, grid_cen)
 grid3$slope <- scale(grid3$slope, center=5.130878, scale=4.347548)[,1]
 
 ## Raster extraction at buffer level ---------------------------
+# THIS SECTION TAKES AWHILE TO RUN
 # Canopy cover
 grid3$can <- exactextractr::exact_extract(can, gridbuff, fun = 'mean')
 grid3$can <- scale(grid3$can, center=43.68183, scale=25.17216)[,1]
@@ -112,7 +113,7 @@ grid3$latitude <- latlong[,2]
 grid3$longitude <- latlong[,1]
 
 ## Convert NAs to 0s
-grid3[,3:12][is.na(grid3[,3:12])] <- 0
+# grid3[,3:12][is.na(grid3[,3:12])] <- 0
 
 #Save out grids, 1k
 save(grid_pa, grid2, grid3, grid_cen, grid_pt, 
