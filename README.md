@@ -1,25 +1,47 @@
-# BirdSDM
-Integrated species distribution model
+Species Futures ReadMe
+================
+Last compiled on 06 February, 2024
 
-Model list
+<!-- README.md is generated from README.RMD; knit at end -->
 
-| Model Name (code) | Model Name (text) | Description |
-|-------------------|-------------------|-------------|
-| Model 1           | R1                | Full eBird, BBA, BBS joint-likelihood |
-| Model 2           | F1                | unfiltered eBird data, joint-likelihood |
-| Model 3           | F2                | filtered but no spatial balancing eBird data, joint-likelihood |
-| Model 4           | F3                | unfiltered, no spatial balancing, joint-likelihood |
-| Model 5           | E1                | remove eBird effort model |
-| Model 6           | E2                | Unfiltered, no spatial balancing, no effort for eBird |
-| Model 7           | I1                | false-positive model for eBird, joint-likelihood |
-| Model 8           | I2                | covariate model using eBird |
-| Model 10          | I3                | no eBird, BBA & BBS only |
-| Model 11          | F4                | stationary eBird in joint-likelihood, no travelling |
-| Model 12          | R2                | full model (like m1) but validated on current data |
-| Model 13          | O3                | remove BBA and older data, new eBird and BBS only |
-| Model 14          | O2                | treat BBA and old data as a covariate |
-| Model 15          | O1                | false positive for BBA, validate on new data |
-| Model 16          | I4                | different intercept model |
+This repository contains code associated with **Integrating unreliable
+data into species distribution models to improve occupancy predictions
+of avian species of concern** written by Fiona Lunt, C. Lane Scher,
+Riley O. Mummah, and David A.W. Miller.
 
+The code and data are maintained by [](mailto:).
 
+All code was run using R version 4.2.1 and JAGS XXX
 
+### Repository Structure
+
+- `data/` contains all data used for fitting the models
+- `code/` contains all R functions and scripts to fit models. All code
+  to run models are written separately by model and species.
+- `models/` contains all JAGS models
+- `results/` contains summarized model output and compiled figures.
+
+Each folder contains a FileDescription that outlines all files in the
+folder.
+
+This readme currently includes all parameter and function information.
+
+### Model list
+
+| Model Name (code) | Model Name (text) | Description                                                 |
+|-------------------|-------------------|-------------------------------------------------------------|
+| Model 1           | R1                | Full eBird, BBA, BBS                                        |
+| Model 2           | F1                | Unfiltered eBird data                                       |
+| Model 3           | F2                | Filtered eBird data but no spatial balancing                |
+| Model 4           | F3                | Unfiltered, no spatial balancing                            |
+| Model 5           | F5                | No eBird effort model                                       |
+| Model 6           | F6                | Unfiltered, no spatial balancing, no effort model for eBird |
+| Model 7           | I1                | False-positive model for eBird                              |
+| Model 8           | I2                | eBird treated as a covariate                                |
+| Model 10          | I3                | eBird removed, BBA & BBS only                               |
+| Model 11          | F4                | Stationary eBird, no travelling                             |
+| Model 12          | R2                | Full model (like R1) but validated on current data          |
+| Model 13          | O3                | Older BBA data removed, new eBird and BBS only              |
+| Model 14          | O2                | Older BBA data treated as covariate                         |
+| Model 15          | O1                | False positive for BBA, validate on new data                |
+| Model 16          | I4                | Different intercepts for eBird and BBS                      |
