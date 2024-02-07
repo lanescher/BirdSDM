@@ -29,17 +29,19 @@ temp <- raster("covariates/PRISM_tmean_30yr/temp2016proj.tif")
 ppt <- raster("covariates/PRISM_ppt_30yr/ppt2016proj.tif")
 dev <-  raster("covariates/NLCD_2016_Land_Cover_L48_20190424/devlan2016proj.tif")
 forest <- raster("covariates/NLCD_2016_Land_Cover_L48_20190424/allfor2016proj.tif")
-# slope <- raster("S:/MillerLab/Projects/BirdSDM/GIS/slope2016proj.tif")
+slope <- raster("covariates/slope2016proj.tif")
 road <- st_read("covariates/Roads/PAroads2.shp") %>%
           st_transform(road, crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
 road <- road[c(2:3,6)]
 road <- tibble::rowid_to_column(road, "ID")
 
-save(elev, can, temp, ppt, dev, forest, road, #slope, road,
+save(elev, can, temp, ppt, dev, forest, slope, road,
      file = 'data/covariates.Rdata')
 
 
 ## Create grid ---------------------------
+load('data/covariates.Rdata')
+
 pa <- st_read("covariates/Pennsylvania_State_Boundary/PaState2020_01.shp") %>%
       st_transform(crs = "+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
 
@@ -93,15 +95,15 @@ grid3$slope <- scale(grid3$slope, center=5.130878, scale=4.347548)[,1]
 ## Raster extraction at buffer level ---------------------------
 # Canopy cover
 grid3$can <- exactextractr::exact_extract(can, gridbuff, fun = 'mean')
-grid3$can <- scale(grid3$can, center=43.68183, scale=25.17216)
+grid3$can <- scale(grid3$can, center=43.68183, scale=25.17216)[,1]
 # Developed land
 grid3$dev <- exactextractr::exact_extract(dev, gridbuff, fun = 'count')
 grid3$dev <- (grid3$dev * 900)/502654.825
-grid3$dev <- scale(grid3$dev, center=0.2299, scale=0.2136447)
+grid3$dev <- scale(grid3$dev, center=0.2299, scale=0.2136447)[,1]
 # Forested land
 grid3$forest <- exactextractr::exact_extract(forest, gridbuff, fun = 'count')
 grid3$forest <- (grid3$forest * 900)/502654.825
-grid3$forest <- scale(grid3$forest, center=0.6011573, scale=0.3303459)
+grid3$forest <- scale(grid3$forest, center=0.6011573, scale=0.3303459)[,1]
 
 ## Get lat long ---------------------------
 latlong <- st_coordinates(st_transform(st_centroid(grid_pa), 4326))
