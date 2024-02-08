@@ -19,6 +19,8 @@ library(sf)
 library(raster)
 library(exactextractr)
 library(RColorBrewer)
+library(mgcv)
+library(cowplot)
 
 
 # ## load data ---------------------------
@@ -122,24 +124,58 @@ save(grid_pa, grid2, grid3, grid_cen, grid_pt,
 
 
 ## Generate predictive map ---------------------------
-load('results/jams/cawa1jam.RData')
 
-grid3$pred <- predict(jam1, newdata = grid3, type="response")
-grid_sp <- as_Spatial(grid3)
+load('results/grid_pa_1km.RData')
 
-# Change map extent
-scale.parameter = 1.1
-original.bbox = grid_sp@bbox 
-edges = original.bbox
-edges[1, ] <- (edges[1, ] - mean(edges[1, ])) * scale.parameter + mean(edges[1,])
-edges[2, ] <- (edges[2, ] - mean(edges[2, ])) * scale.parameter + mean(edges[2,])
+spp <- c('cawa','cerw','gwwa','woth')
 
-#Plot
-# pdf("FinalResults/Plots/cawam1map.pdf")
-spplot(grid_sp, "pred", col=NA, par.settings = list(axis.line = list(col = 'transparent')),
-       xlim = edges[1, ], ylim = edges[2, ], colorkey=list(height=0.6, cex=0.5))
-# dev.off()
+for (i in 1:4) {
+  load(paste0('results/jams/',spp[i],'m1jam.RData'))
+  
+  grid3$pred <- predict(jam, newdata = grid3, type="response")
+  
+  colnames(grid3)[ncol(grid3)] <- spp[i]
+}
 
 
+# Canadian warbler
+ggplot(grid3) +
+  geom_sf(aes(fill=cawa, col=cawa)) +
+  scale_fill_viridis_c(option = "inferno") +
+  scale_color_viridis_c(option = "inferno") +
+  theme_void() +
+  theme(legend.title = element_blank()) -> cawa
+
+# Cerulean warbler
+ggplot(grid3) +
+  geom_sf(aes(fill=cerw, col=cerw)) +
+  scale_fill_viridis_c(option = "inferno") +
+  scale_color_viridis_c(option = "inferno") +
+  theme_void() +
+  theme(legend.title = element_blank()) -> cerw
+
+# Golden-winged warbler
+ggplot(grid3) +
+  geom_sf(aes(fill=gwwa, col=gwwa)) +
+  scale_fill_viridis_c(option = "inferno") +
+  scale_color_viridis_c(option = "inferno") +
+  theme_void() +
+  theme(legend.title = element_blank()) -> gwwa
+
+# Wood thrush
+ggplot(grid3) +
+  geom_sf(aes(fill=woth, col=woth)) +
+  scale_fill_viridis_c(option = "inferno") +
+  scale_color_viridis_c(option = "inferno") +
+  theme_void() +
+  theme(legend.title = element_blank()) -> woth
 
 
+
+
+plot_grid(cawa, cerw, gwwa, woth, ncol = 2, labels = 'auto')
+
+ggsave(filename = 'outputs/fig3.jpg')
+
+
+# End script
