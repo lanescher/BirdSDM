@@ -13,6 +13,7 @@
 ##   cawam1.RData
 ##
 
+
 ## load packages ---------------------------
 library(plyr)
 library(dplyr)
@@ -121,9 +122,6 @@ brier1 <- mean((outm1$mean$y2[9218:24220] - dat1$cawadet[88727:103729])^2)
 pred1 <- prediction(as.numeric(outm1$mean$y2[9218:24220]), dat1$cawadet[88727:103729])
 auc1 <- performance(pred1, measure = "auc")
 auc1 <- auc1@y.values[[1]]
-
-# roc1 <- roc(dat1$cawadet[88642:103748], as.numeric(outm1$mean$y2[9218:24220]),
-# ci.auc=TRUE, auc=TRUE, parallel=TRUE)
 
 
 # Save CAWA M1 file

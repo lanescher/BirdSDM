@@ -1,17 +1,21 @@
 
-## This code was written by: fiona lunt
-
 ## Objective ---------------------------
-## Model 1: R1 (reference) 
-## Canada warbler (CAWA)
+## To create maps of predicted occurrence for four species
 ##
+## 
 ## Input:
-##   test1.csv
-##   train1.csv
+##    data/covariates.Rdata
+##    data/grid_pa_1km.RData
+##    results/jams/cawam1jam.RData
+##    results/jams/cerwm1jam.RData
+##    results/jams/gwwam1jam.RData
+##    results/jams/wothm1jam.RData
 ##
 ## Output: 
-##   cawam1.RData
+##    outputs/fig3.jpg
 ##
+## ---------------------------
+
 
 ## load packages ---------------------------
 library(tidyverse)
@@ -125,7 +129,7 @@ save(grid_pa, grid2, grid3, grid_cen, grid_pt,
 
 ## Generate predictive map ---------------------------
 
-load('results/grid_pa_1km.RData')
+load('data/grid_pa_1km.RData')
 
 spp <- c('cawa','cerw','gwwa','woth')
 

@@ -1,3 +1,26 @@
+
+## Objective ---------------------------
+## To summarize the number of observations and detection rate in 
+## each training dataset 
+##
+## 
+## Input:
+##    data/train1.csv
+##    data/train2.csv
+##    data/train3.csv
+##    data/train4.csv
+##    data/covdat.csv
+##    data/covdat2.csv
+##    data/hdat.csv
+##
+## Output: 
+##    outputs/observations.jpg
+##    outputs/detection-rate.jpg
+##
+## ---------------------------
+
+
+## load packages ---------------------------
 library(tidyverse)
 library(plyr)
 

@@ -1,6 +1,6 @@
 Species Futures ReadMe
 ================
-Last compiled on 06 February, 2024
+Last compiled on 20 February, 2024
 
 <!-- README.md is generated from README.RMD; knit at end -->
 
@@ -9,7 +9,8 @@ data into species distribution models to improve occupancy predictions
 of avian species of concern** written by Fiona Lunt, C. Lane Scher,
 Riley O. Mummah, and David A.W. Miller.
 
-The code and data are maintained by [](mailto:).
+The code and data are maintained by [Riley
+Mummah](mailto:%20rmummah@usgs.gov).
 
 All code was run using R version 4.2.1 and JAGS XXX
 
@@ -17,9 +18,11 @@ All code was run using R version 4.2.1 and JAGS XXX
 
 - `data/` contains all data used for fitting the models
 - `code/` contains all R functions and scripts to fit models. All code
-  to run models are written separately by model and species.
+  to run models are written separately by model and species in subfolder
+  `spp-models/`.
 - `models/` contains all JAGS models
-- `results/` contains summarized model output and compiled figures.
+- `results/` contains summarized model output
+- `outputs/` contains the compiled figures and tables
 
 Each folder contains a FileDescription that outlines all files in the
 folder.

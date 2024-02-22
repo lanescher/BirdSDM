@@ -1,3 +1,20 @@
+
+## Objective ---------------------------
+## To generate figures of nonlinear covariate effects
+##
+## 
+## Input:
+##    results/gams.rds
+##
+## Output: 
+##    outputs/parameter-partial.jpg
+##    outputs/parameter-full.jpg
+##
+## ---------------------------
+
+
+## load packages ---------------------------
+
 library(tidyverse)
 library(mgcv)
 

@@ -1,9 +1,23 @@
 
+## Objective ---------------------------
+## To post-process, assemble output, and generate a figure.
+##
+## 
+## Input:
+##    results/performancemetrics.rds
+##
+## Output: 
+##    outputs/metrics.jpg
+##    outputs/metricstab1.csv
+##    outputs/metricstab2.csv
+##
+## ---------------------------
 
+
+## load packages ---------------------------
 library(tidyverse)
 
 
-#dat_raw <- read.csv("data/proj05-fiona/results.csv")
 dat_raw <- readRDS("results/performancemetrics.rds")
 
 
@@ -122,4 +136,6 @@ tab2 <- tab[c("R1", "E1", "E2", "E3", "E4", "R2", "O1", "O2", "O3"),]
 write.csv(tab1, file = "outputs/metricstab1.csv", row.names = F)
 write.csv(tab2, file = "outputs/metricstab2.csv", row.names = F)
 
+
+# End script
 

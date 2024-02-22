@@ -1,12 +1,7 @@
-## ---------------------------
-## This code was written by: r.o. mummah
-## For questions: rmummah@usgs.gov
-## Date Created: 2024-01-30
-## ---------------------------
 
-## ---------------------------
-## Objective: To import RData files generated from HPC JAGS runs and save
-##            performance metrics (brier score, AUC, deviance)
+## Objective ---------------------------
+## To import RData files generated from HPC JAGS runs and save
+## performance metrics (brier score, AUC, deviance)
 ##
 ## 
 ## Input:

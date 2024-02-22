@@ -1,3 +1,18 @@
+
+## Objective ---------------------------
+## To extract covariate effects from fitted GAMs
+##
+## 
+## Input:
+##    results/jams/*.Rdata
+##
+## Output: 
+##    results/gams.rds
+##
+## ---------------------------
+
+
+## load packages ---------------------------
 library(mgcv)
 library(ROCR)
 library(dplyr)
@@ -60,22 +75,4 @@ data %>%
 saveRDS(data, 'results/gams.rds')
 
 
-data <- readRDS('results/gams.rds')
-
-data %>%
-  separate_wider_position(cols = name,
-                          cols_remove = FALSE,
-                          widths = c('group' = 1, 'num' = 1)) %>%
-  select(-num) %>%
-ggplot(aes(x=x)) +
-  geom_ribbon(aes(ymin=fit-se, ymax=fit+se,
-                  group=mod, fill=as.factor(mod)),
-              alpha=0.25) +
-  geom_line(aes(y=fit, group=mod, col=as.factor(mod))) +
-  facet_grid(spp~cov, scales = 'free') +
-  labs(x='') +
-  theme_bw()
-
-
-
-
+# End script
