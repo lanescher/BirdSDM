@@ -1,5 +1,5 @@
 ---
-title: "Species Futures ReadMe"
+title: "README"
 output: github_document
 always_allow_html: yes  
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
@@ -17,22 +17,20 @@ knitr::opts_chunk$set(collapse = TRUE,
 ```
 
 
-This repository contains code associated with **Integrating unreliable data into species distribution models to improve occupancy predictions of avian species of concern** written by Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W. Miller. 
+This repository contains code associated with 
+**Integrating unreliable data into species distribution models to improve occupancy predictions of avian species of concern** 
 
-The code and data are maintained by [`r params$maintainer1`](mailto: `r params$maintainer_email1`).
+Authors: Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W. Miller. 
 
-All code was run using R version 4.2.1 and JAGS XXX
+The code and data are maintained by [`r params$maintainer1`](mailto: `r params$maintainer_email1`). All code was run using R version 4.2.1 and JAGS 4.3.1
 
 ### Repository Structure
 - `data/` contains all data used for fitting the models
-- `code/` contains all R functions and scripts to fit models. All code to run models are written separately by model and species in subfolder `spp-models/`.
+- `code/` contains all R functions and scripts to fit models. All code to run models are written separately by model and species in subfolder `spp-models/`. There is an additional README here to explain each script.
 - `models/` contains all JAGS models
 - `results/` contains summarized model output
 - `outputs/` contains the compiled figures and tables
 
-
-
-This README currently includes all parameter and function information. 
 
 ### Model list
 
