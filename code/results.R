@@ -38,7 +38,7 @@ dat1 <- dat_raw %>%
 labs <- c("AUC", "Brier Score", "Deviance")
 names(labs) <- c("auc", "brier", "dev")
 
-q1 <- ggplot(dat1) +
+q1 <- ggplot(filter(dat1, metric != "dev")) +
   geom_hline(yintercept = 0) +
   geom_point(aes(x = name, y = val, color = spp)) +
   geom_line(aes(x = name, y = val, color = spp, group = spp)) +
@@ -84,7 +84,7 @@ dat2 <- bind_rows(dat2a, dat2b)
 labs <- c("AUC", "Brier Score", "Deviance")
 names(labs) <- c("auc", "brier", "dev")
 
-q2 <- ggplot(dat2) +
+q2 <- ggplot(filter(dat2, metric != "dev")) +
   geom_hline(yintercept = 0) +
   geom_point(aes(x = modnum, y = val, color = spp)) +
   geom_line(aes(x = modnum, y = val, color = spp, group = interaction(spp, modgroup), linetype = modgroup)) +
