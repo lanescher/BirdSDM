@@ -4,8 +4,8 @@ output: github_document
 always_allow_html: yes  
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
 params:
-  maintainer1: Riley Mummah
-  maintainer_email1: rmummah@usgs.gov
+  maintainer1: Lane Scher
+  maintainer_email1: cls7052@psu.edu
 
 ---
 
@@ -18,9 +18,9 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 This repository contains code associated with 
-**Integrating unreliable data into species distribution models to improve occupancy predictions of avian species of concern** 
+**Data sets with multiple sources of uncertainty in integrated species distribution models**. 
 
-Authors: Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W. Miller. 
+**Authors:** Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W. Miller. 
 
 The code and data are maintained by [`r params$maintainer1`](mailto: `r params$maintainer_email1`). All code was run using R version 4.2.1 and JAGS 4.3.1
 

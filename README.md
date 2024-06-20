@@ -1,18 +1,17 @@
 README
 ================
-Last compiled on 22 February, 2024
+Last compiled on 20 June, 2024
 
 <!-- README.md is generated from README.RMD; knit at end -->
 
-This repository contains code associated with **Integrating unreliable
-data into species distribution models to improve occupancy predictions
-of avian species of concern**
+This repository contains code associated with **Data sets with multiple
+sources of uncertainty in integrated species distribution models**.
 
-Authors: Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W.
+**Authors:** Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W.
 Miller.
 
-The code and data are maintained by [Riley
-Mummah](mailto:%20rmummah@usgs.gov). All code was run using R version
+The code and data are maintained by [Lane
+Scher](mailto:%20cls7052@psu.edu). All code was run using R version
 4.2.1 and JAGS 4.3.1
 
 ### Repository Structure
