@@ -3,10 +3,6 @@ title: "Code ReadMe"
 output: github_document
 always_allow_html: yes  
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-params:
-  maintainer1: Riley Mummah
-  maintainer_email1: rmummah@usgs.gov
-
 ---
 
 <!-- README.md is generated from README.RMD; knit at end -->
