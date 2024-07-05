@@ -10,8 +10,7 @@ sources of uncertainty in integrated species distribution models**.
 **Authors:** Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W.
 Miller.
 
-The code and data are maintained by [Lane
-Scher](mailto:%20cls7052@psu.edu). All code was run using R version
+The code and data are maintained by Lane Scher. All code was run using R version
 4.2.1 and JAGS 4.3.1
 
 ### Repository Structure
@@ -35,9 +34,9 @@ Scher](mailto:%20cls7052@psu.edu). All code was run using R version
 | Model 4           | F3                | Unfiltered, no spatial balancing                            |
 | Model 5           | F5                | No eBird effort model                                       |
 | Model 6           | F6                | Unfiltered, no spatial balancing, no effort model for eBird |
-| Model 7           | I1                | False-positive model for eBird                              |
-| Model 8           | I2                | eBird treated as a covariate                                |
-| Model 10          | I3                | eBird removed, BBA & BBS only                               |
+| Model 7           | E1                | False-positive model for eBird                              |
+| Model 8           | E2                | eBird treated as a covariate                                |
+| Model 10          | E3                | eBird removed, BBA & BBS only                               |
 | Model 11          | F4                | Stationary eBird, no travelling                             |
 | Model 12          | R2                | Full model (like R1) but validated on current data          |
 | Model 13          | O3                | Older BBA data removed, new eBird and BBS only              |
