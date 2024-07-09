@@ -65,7 +65,8 @@ dat2a <- dat_raw %>%
          val = case_when(metric != "auc" ~ val*-1,
                          T ~ val),
          modnum = substr(name, 2, 2),
-         modgroup = "E")
+         modgroup = "E") %>%
+  filter(modnum != 4)
 
 dat2b <- dat_raw %>%
   filter(mod %in% c(12, 15, 13, 14)) %>%
