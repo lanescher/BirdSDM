@@ -5,7 +5,6 @@ always_allow_html: yes
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
 params:
   maintainer1: Lane Scher
-  maintainer_email1: cls7052@psu.edu
 
 ---
 
@@ -22,7 +21,7 @@ This repository contains code associated with
 
 **Authors:** Fiona Lunt, C. Lane Scher, Riley O. Mummah, and David A.W. Miller. 
 
-The code and data are maintained by [`r params$maintainer1`](mailto: `r params$maintainer_email1`). All code was run using R version 4.2.1 and JAGS 4.3.1
+The code and data are maintained by [`r params$maintainer1`]. All code was run using R version 4.2.1 and JAGS 4.3.1
 
 ### Repository Structure
 - `data/` contains all data used for fitting the models
